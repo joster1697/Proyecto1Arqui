@@ -11,6 +11,8 @@ namespace Proyecto1Arqui
         /// Leeer archivos de texto, word.
         /// </summary>
         ArrayList listaPalabras = new ArrayList();
+		ArrayList palabraLarga = new ArrayList();
+		int totalCaracteres = 0, caracteresEspacio = 0, totalOraciones = 0, palabraLargaCont = 0;
 
         public void leerWord(String fileName)
         {
@@ -60,39 +62,92 @@ namespace Proyecto1Arqui
 
         }
 
-        public void descomponerLinea(String linea)
-        {
-            ArrayList palabra = new ArrayList();
-            Char[] palabraArray;
-            String resultado;
-            Boolean palGuardada = false;
-            var chars = linea.ToCharArray();
-            foreach (char letra in chars)
-            {
-                if (letra.Equals(' '))
-                {
-                    palabraArray = new char[palabra.Count];
-                    palabra.CopyTo(palabraArray);
-                    resultado = string.Join(null, palabraArray);
-                    listaPalabras.Add(resultado);
-                    palabra = new ArrayList();
-                    palGuardada = true;
-                }
-                else
-                {
-                    palabra.Add(letra);
-                    palGuardada = false;
-                }
-            }
-            if (palGuardada == false)
-            {
-                palabraArray = new char[palabra.Count];
-                palabra.CopyTo(palabraArray);
-                resultado = string.Join(null, palabraArray);
-                listaPalabras.Add(resultado);
-                palabra = new ArrayList();
-            }
+		public void descomponerLinea(String linea)
+		{
+			//lista para almacenar una palabra
+			ArrayList palabra = new ArrayList();
+			//cadena de chars para formar una palabra
+			Char[] palabraArray;
+			String resultado;
+			//verifica si la palabra ya se ha guardado
+			Boolean palGuardada = false;
+			//convierte el string a cadena de chars
+			var chars = linea.ToCharArray();
+			//ciclo que recorre la cadena de chars
+			foreach (char letra in chars)
+			{
+				//funcion de total de caracteres
+				totalCaracteres += 1;
+				
 
-        }
-    }
+				//verifica que se a una letra
+				if (Char.IsLetterOrDigit(letra) == false)
+				{
+					//funcion total de carcteres sin espacios
+					if (letra.Equals(' ')) caracteresEspacio += 1;
+
+					//funcion de recuento de oraciones
+					if (letra.Equals('.')) totalOraciones += 1;
+
+					//crea un arreglo de la cantidad de chars de la palabra
+					palabraArray = new char[palabra.Count];
+					//pasa los chars a una lista
+					palabra.CopyTo(palabraArray);
+					//se une la palabra formada
+					resultado = string.Join(null, palabraArray);
+
+					//funcion palabra mas larga
+					if (palabra.Count > palabraLargaCont) { palabraLarga.Clear(); palabraLarga.Add(resultado); }
+					else if (palabra.Count == palabraLargaCont) { palabraLarga.Add(resultado); }
+
+					//verifica que la palabra no este vacia
+					if (!resultado.Equals(""))
+					{
+						//se agrega la palabra a la lista total de palabras
+						listaPalabras.Add(resultado);
+					}
+					//se setean los valores
+					palabra = new ArrayList();
+					palGuardada = true;
+
+				}
+				else
+				{
+					//agrega chars a la lista para conformar una palabra
+					palabra.Add(letra);
+					palGuardada = false;
+				}
+			}
+			//verifica que la palabra se haya guardado
+			if (palGuardada == false)
+			{
+				palabraArray = new char[palabra.Count];
+				palabra.CopyTo(palabraArray);
+				resultado = string.Join(null, palabraArray);
+				listaPalabras.Add(resultado);
+				palabra = new ArrayList();
+			}
+
+		}
+
+		public int getTotalCaracters() {
+			return totalCaracteres;
+		}
+
+		public int getCaracteresEspacios() {
+			return caracteresEspacio;
+		}
+
+		public int getTotalOraciones() {
+			return totalOraciones;
+		}
+
+		public int getTotalPalabras() {
+			return listaPalabras.Count;
+		}
+
+		public ArrayList getPalabraLarga() {
+			return palabraLarga;
+		}
+	}
 }

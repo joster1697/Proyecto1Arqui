@@ -48,30 +48,44 @@ namespace Proyecto1Arqui
                     ArchivoNombre.Paste(fileName);
                 }
             }
-
-            if (fileName != null)
-            {
-                //Do something with the file, for example read text from it
-                string ext = Path.GetExtension(fileName);
-                if (ext.Equals(".txt"))
-                {
-                    met.leerTexto(fileName);
-                }
-                else if (ext.Equals(".doc")||ext.Equals(".docx"))
-                { 
-                    met.leerWord(fileName);
-                }
-            }
         }
 
         private void ejecutarSeleccionButton_Click(object sender, EventArgs e)
         {
+			
+			if (checkBox1.Checked) {
 
-        }
+			}
+			if (fileName != null)
+			{
+				//Do something with the file, for example read text from it
+				string ext = Path.GetExtension(fileName);
+				if (ext.Equals(".txt"))
+				{
+					met.leerTexto(fileName);
+				}
+				else if (ext.Equals(".doc") || ext.Equals(".docx"))
+				{
+					met.leerWord(fileName);
+				}
+			}
+		}
 
         private void ejecutarTodoButton_Click(object sender, EventArgs e)
         {
-
-        }
+			if (fileName != null)
+			{
+				//Do something with the file, for example read text from it
+				string ext = Path.GetExtension(fileName);
+				if (ext.Equals(".txt"))
+				{
+					met.leerTexto(fileName);
+				}
+				else if (ext.Equals(".doc") || ext.Equals(".docx"))
+				{
+					met.leerWord(fileName);
+				}
+			}
+		}
     }
 }
