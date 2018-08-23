@@ -1,0 +1,11 @@
+C:\Users\USER\source\repos\Proyecto1Arqui\Proyecto1Arqui\bin\Debug\Proyecto1Arqui.exe.config
+C:\Users\USER\source\repos\Proyecto1Arqui\Proyecto1Arqui\bin\Debug\Proyecto1Arqui.exe
+C:\Users\USER\source\repos\Proyecto1Arqui\Proyecto1Arqui\bin\Debug\Proyecto1Arqui.pdb
+C:\Users\USER\source\repos\Proyecto1Arqui\Proyecto1Arqui\obj\Debug\Proyecto1Arqui.csprojAssemblyReference.cache
+C:\Users\USER\source\repos\Proyecto1Arqui\Proyecto1Arqui\obj\Debug\Proyecto1Arqui.Form1.resources
+C:\Users\USER\source\repos\Proyecto1Arqui\Proyecto1Arqui\obj\Debug\Proyecto1Arqui.Properties.Resources.resources
+C:\Users\USER\source\repos\Proyecto1Arqui\Proyecto1Arqui\obj\Debug\Proyecto1Arqui.csproj.GenerateResource.cache
+C:\Users\USER\source\repos\Proyecto1Arqui\Proyecto1Arqui\obj\Debug\Proyecto1Arqui.csproj.CoreCompileInputs.cache
+C:\Users\USER\source\repos\Proyecto1Arqui\Proyecto1Arqui\obj\Debug\Proyecto1Arqui.exe
+C:\Users\USER\source\repos\Proyecto1Arqui\Proyecto1Arqui\obj\Debug\Proyecto1Arqui.pdb
+C:\Users\USER\source\repos\Proyecto1Arqui\Proyecto1Arqui\obj\Debug\Proyecto1Arqui.csproj.ResolveComReference.cache
