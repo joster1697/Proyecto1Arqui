@@ -20,7 +20,7 @@ namespace Proyecto1Arqui
 		public Form1()
 		{
 			InitializeComponent();
-			//leerTexto();
+			leerTexto();
 			leerWord();
 		}
 
