@@ -130,6 +130,20 @@ namespace Proyecto1Arqui
 
 		}
 
+		public int getPalabrasDiferentes() {
+			ArrayList palabrasDiferentes = new ArrayList();
+			foreach(String palabra in listaPalabras)
+			{
+				foreach(String repite in palabrasDiferentes)
+				{
+					if (palabra.Equals(repite)) break;
+
+					palabrasDiferentes.Add(palabra);
+				}
+			}
+			return palabrasDiferentes.Capacity;
+		}
+
 		public int getTotalCaracters() {
 			return totalCaracteres;
 		}
