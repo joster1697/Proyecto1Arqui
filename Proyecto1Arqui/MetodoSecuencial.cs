@@ -36,8 +36,6 @@ namespace Proyecto1Arqui
 			//cerramos el archivo
 			doc.Close(ref missing, ref missing, ref missing);
 
-			descomponerLinea(data);
-
 		}
 
 		public void leerTexto(String fileName)
@@ -156,7 +154,6 @@ namespace Proyecto1Arqui
 			{
 				if (letra.Equals(".")) cantOraciones += 1;
 			}
-			return totalOraciones;
 		}
 
 		public int getTotalPalabras(String texto)
