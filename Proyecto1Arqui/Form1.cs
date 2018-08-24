@@ -67,6 +67,22 @@ namespace Proyecto1Arqui
             return (int)inputBox.Value;
         }
 
+        public static String ShowDialog2(string text, string caption)
+        {
+            Form prompt = new Form();
+            prompt.Width = 500;
+            prompt.Height = 200;
+            prompt.Text = caption;
+            Label textLabel = new Label() { Left = 50, Top = 20, Text = text };
+            TextBox inputBox = new TextBox() { Left = 50, Top = 50, Width = 400 };
+            Button confirmation = new Button() { Text = "Ok", Left = 350, Width = 100, Top = 70 };
+            confirmation.Click += (sender, e) => { prompt.Close(); };
+            prompt.Controls.Add(confirmation);
+            prompt.Controls.Add(textLabel);
+            prompt.Controls.Add(inputBox);
+            prompt.ShowDialog();
+            return inputBox.Text;
+        }
         private void ejecutarSeleccionButton_Click(object sender, EventArgs e)
         {
             if (fileName != null)
@@ -100,7 +116,8 @@ namespace Proyecto1Arqui
                 if (checkBox3.Checked == true)
                 {
                     //llamese al metodo de numero de veces que aparece una palabra
-
+                    string valor = ShowDialog2("Indique la palabra", "Numero de veces de una palabra");
+                    
                 }
                 if (checkBox4.Checked == true)
                 {
