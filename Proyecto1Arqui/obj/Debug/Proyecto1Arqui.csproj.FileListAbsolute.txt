@@ -20,3 +20,4 @@ C:\Users\Emmanuel\Documents\GitHub\Proyecto1Arqui\Proyecto1Arqui\obj\Debug\Proye
 C:\Users\Emmanuel\Documents\GitHub\Proyecto1Arqui\Proyecto1Arqui\obj\Debug\Proyecto1Arqui.csproj.CoreCompileInputs.cache
 C:\Users\Emmanuel\Documents\GitHub\Proyecto1Arqui\Proyecto1Arqui\obj\Debug\Proyecto1Arqui.exe
 C:\Users\Emmanuel\Documents\GitHub\Proyecto1Arqui\Proyecto1Arqui\obj\Debug\Proyecto1Arqui.pdb
+C:\Users\Emmanuel\Documents\GitHub\Proyecto1Arqui\Proyecto1Arqui\obj\Debug\Proyecto1Arqui.Rendimiento.resources

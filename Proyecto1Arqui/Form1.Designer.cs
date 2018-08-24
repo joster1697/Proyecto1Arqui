@@ -49,6 +49,7 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
+            this.rendimientoButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -250,11 +251,22 @@
             this.label6.TabIndex = 21;
             this.label6.Text = "Determine la Modalidad:";
             // 
+            // rendimientoButton
+            // 
+            this.rendimientoButton.Location = new System.Drawing.Point(564, 409);
+            this.rendimientoButton.Name = "rendimientoButton";
+            this.rendimientoButton.Size = new System.Drawing.Size(75, 23);
+            this.rendimientoButton.TabIndex = 41;
+            this.rendimientoButton.Text = "Rendimiento";
+            this.rendimientoButton.UseVisualStyleBackColor = true;
+            this.rendimientoButton.Click += new System.EventHandler(this.rendimientoButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.rendimientoButton);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.checkBox10);
             this.Controls.Add(this.checkBox9);
@@ -307,6 +319,7 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button rendimientoButton;
     }
 }
 

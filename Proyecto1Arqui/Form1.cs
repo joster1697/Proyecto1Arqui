@@ -24,6 +24,7 @@ namespace Proyecto1Arqui
 
         public string fileName = null;
         private static Metodos met = new Metodos();
+        
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -169,6 +170,12 @@ namespace Proyecto1Arqui
             }
             //llamese a todos los metodos uno por uno
 
+        }
+
+        private void rendimientoButton_Click(object sender, EventArgs e)
+        {
+            Rendimiento rendi = new Rendimiento();
+            rendi.Show();
         }
     }
 }
