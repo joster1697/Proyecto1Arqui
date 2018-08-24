@@ -154,6 +154,7 @@ namespace Proyecto1Arqui
 			{
 				if (letra.Equals(".")) cantOraciones += 1;
 			}
+			return cantOraciones;
 		}
 
 		public int getTotalPalabras(String texto)
@@ -265,6 +266,60 @@ namespace Proyecto1Arqui
 				palabra = new ArrayList();
 			}
 			return palabraLarga;
+		}
+
+		public int cantPalabraParticular(String texto, String seleccion) {
+
+			int cantPalabra = 0;
+			ArrayList palabra = new ArrayList();
+			//cadena de chars para formar una palabra
+			Char[] palabraArray;
+			String resultado;
+			//verifica si la palabra ya se ha guardado
+			Boolean palGuardada = false;
+			//convierte el string a cadena de chars
+			var chars = texto.ToCharArray();
+			//ciclo que recorre la cadena de chars
+			foreach (char letra in chars)
+			{
+				//verifica que se a una letra
+				if (Char.IsLetterOrDigit(letra) == false)
+				{
+					//crea un arreglo de la cantidad de chars de la palabra
+					palabraArray = new char[palabra.Count];
+					//pasa los chars a una lista
+					palabra.CopyTo(palabraArray);
+					//se une la palabra formada
+					resultado = string.Join(null, palabraArray);
+
+					if (resultado.Equals(seleccion)) {
+						cantPalabra += 1;
+					}
+					//se setean los valores
+					palabra = new ArrayList();
+					palGuardada = true;
+
+				}
+				else
+				{
+					//agrega chars a la lista para conformar una palabra
+					palabra.Add(letra);
+					palGuardada = false;
+				}
+			}
+			//verifica que la palabra se haya guardado
+			if (palGuardada == false)
+			{
+				palabraArray = new char[palabra.Count];
+				palabra.CopyTo(palabraArray);
+				resultado = string.Join(null, palabraArray);
+				if (resultado.Equals(seleccion))
+				{
+					cantPalabra += 1;
+				}
+				palabra = new ArrayList();
+			}
+			return cantPalabra;
 		}
 	}
 }
