@@ -122,7 +122,6 @@ namespace Proyecto1Arqui
                     {
                         metS.leerWord(fileName);
                     }
-
                 }
                 Parallel.Invoke(() =>
                 {
@@ -136,6 +135,7 @@ namespace Proyecto1Arqui
                     {
                         //llamese al metodo de "N" palabras mas comunes
                         metS.descomponerLineaS(metS.data);
+
                         int valor = ShowDialog("Cantidad de palabras:", "Cantidad de Palabras a buscar");
                         metS.PalabrasRepetidas(valor);
 
@@ -149,6 +149,7 @@ namespace Proyecto1Arqui
                         {
                             if (cont2 < valor)
                             {
+                                //Modificar Para que imprima en la pantalla de impresion
                                 Console.WriteLine(itemx1.Key + "   " + itemx1.Value);
                                 Console.Read();
                             }
@@ -159,7 +160,6 @@ namespace Proyecto1Arqui
                         //llamese al metodo de numero de veces que aparece una palabra
                         string valor = ShowDialog2("Indique la palabra", "Numero de veces de una palabra");
                         metS.cantPalabraParticular(metS.data, valor);
-
                     }
                     if (checkBox4.Checked == true)
                     {
@@ -300,6 +300,48 @@ namespace Proyecto1Arqui
                     }
                 }
 
+                //llamese al metodo de palabra de mayor longitud
+                metS.getPalabraLarga(metS.data);
+
+                //llamese al metodo de "N" palabras mas comunes
+                metS.descomponerLineaS(metS.data);
+                int valor = ShowDialog("Cantidad de palabras:", "Cantidad de Palabras a buscar");
+                metS.PalabrasRepetidas(valor);
+
+                Func<KeyValuePair<string, int>, int> ordenar = delegate (KeyValuePair<string, int> item2)
+                {
+                    return item2.Value;
+                };
+                IOrderedEnumerable<KeyValuePair<string, int>> ordenado = metP.diccionarioRepetidas.OrderByDescending(ordenar);
+                int cont2 = 0;
+                foreach (var itemx1 in ordenado)
+                {
+                    if (cont2 < valor)
+                    {
+                        Console.WriteLine(itemx1.Key + "   " + itemx1.Value);
+                        Console.Read();
+                    }
+                }
+
+                //llamese al metodo de numero de veces que aparece una palabra
+                string valorx = ShowDialog2("Indique la palabra", "Numero de veces de una palabra");
+                metS.cantPalabraParticular(metS.data, valorx);
+
+                //llamese al metodo de Total de palabras
+                metS.getTotalPalabras(metS.data);
+
+                //llamese al metodo de numero de palabras diferentes
+                metS.getPalabrasDiferentes(metS.data);
+
+                //llamese al metodo de numero total de caracteres
+                metS.getTotalCaracters(metS.data);
+
+                //llamese al metodo de numero de caracteres sin espacio
+                metS.getTotalCaracters(metS.data);
+
+                //llamese al metodo de recuento de oraciones
+                metS.getTotalOraciones(metS.data);
+
             }
             else if (checkBox10.Checked == true)
             {
@@ -317,6 +359,53 @@ namespace Proyecto1Arqui
                         metP.leerWord(fileName);
                     }
                 }
+                Parallel.Invoke(()=> 
+                {
+                    //llamese al metodo de palabra de mayor longitud
+                    metP.getPalabraLarga(metP.data);
+
+                    //llamese al metodo de "N" palabras mas comunes
+                    metP.descomponerLineaP(metP.data);
+                    int valor = ShowDialog("Cantidad de palabras:", "Cantidad de Palabras a buscar");
+                    metP.PalabrasRepetidas(valor);
+
+                    Func<KeyValuePair<string, int>, int> ordenar = delegate (KeyValuePair<string, int> item2)
+                    {
+                        return item2.Value;
+                    };
+                    IOrderedEnumerable<KeyValuePair<string, int>> ordenado = metP.diccionarioRepetidas.OrderByDescending(ordenar);
+                    int cont2 = 0;
+                    foreach (var itemx1 in ordenado)
+                    {
+                        if (cont2 < valor)
+                        {
+                            Console.WriteLine(itemx1.Key + "   " + itemx1.Value);
+                            Console.Read();
+                        }
+                    }
+
+                    //llamese al metodo de numero de veces que aparece una palabra
+                    string valorx = ShowDialog2("Indique la palabra", "Numero de veces de una palabra");
+                    metP.cantPalabraParticular(metP.data, valorx);
+
+                    //llamese al metodo de Total de palabras
+                    metP.getTotalPalabras(metP.data);
+
+                }, () =>
+                {
+                    //llamese al metodo de numero de palabras diferentes
+                    metP.getPalabrasDiferentes(metP.data);
+
+                    //llamese al metodo de numero total de caracteres
+                    metP.getTotalCaracters(metP.data);
+
+                    //llamese al metodo de numero de caracteres sin espacio
+                    metP.getTotalCaracters(metP.data);
+
+                    //llamese al metodo de recuento de oraciones
+                    metP.getTotalOraciones(metP.data);
+
+                });
             }
         }
 

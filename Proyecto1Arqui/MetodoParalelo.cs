@@ -65,7 +65,22 @@ namespace Proyecto1Arqui
             getPalabrasDiferentes(mitad1 + mitad2);
 		}
 
-        public void descomponerLineaP(String linea) //Hay que ponerlo en Paralelo
+        public void leerTexto(String fileName)
+        {
+            String linea = null;
+            using (StreamReader leer = new StreamReader(fileName))
+            {
+                while (!leer.EndOfStream)
+                {
+                    linea = leer.ReadLine();
+                    // ARREGLAR descomponerLinea(linea);
+                }
+
+            }
+
+        }
+
+        public void descomponerLineaP(String linea)
         {
             //lista para almacenar una palabra
             ArrayList palabra = new ArrayList();
@@ -118,21 +133,6 @@ namespace Proyecto1Arqui
             }
 
         }
-
-        public void leerTexto(String fileName)
-		{
-			String linea = null;
-			using (StreamReader leer = new StreamReader(fileName))
-			{
-				while (!leer.EndOfStream)
-				{
-					linea = leer.ReadLine();
-					// ARREGLAR descomponerLinea(linea);
-				}
-
-			}
-
-		}
 
 		public int palabrasDiferentesParalelo()
 		{
@@ -537,28 +537,63 @@ namespace Proyecto1Arqui
 			return cantPalabra;
 		}
 
-        //Pasar a Paralelo
         public void PalabrasRepetidas(int valor)
         {
-            foreach (string item in listaPalabrasTotal)
+            Parallel.Invoke(() =>
             {
-                if (diccionarioRepetidas.ContainsKey(item))
+                int contx = 0;
+                foreach (string item in listaPalabrasTotal)
                 {
-                    continue;
-                }
-                else
-                {
-                    int cont = 0;
-                    for (int x = 0; x < listaPalabrasTotal.Count; x++)
+                    if (contx != listaPalabrasTotal.Count / 2)
                     {
-                        if (item.Equals(listaPalabrasTotal[x]))
+                        if (diccionarioRepetidas.ContainsKey(item))
                         {
-                            cont += 1;
+                            continue;
+                        }
+                        else
+                        {
+                            int cont = 0;
+                            for (int x = 0; x < listaPalabrasTotal.Count; x++)
+                            {
+                                if (item.Equals(listaPalabrasTotal[x]))
+                                {
+                                    cont += 1;
+                                }
+                            }
+                            diccionarioRepetidas.Add(item, cont);
                         }
                     }
-                    diccionarioRepetidas.Add(item, cont);
+                    else
+                    {
+                        break;
+                    }
                 }
-            }
+            },()=> 
+            {
+                int conty = 0;
+                foreach (string item in listaPalabrasTotal)
+                {
+                    if (conty == listaPalabrasTotal.Count / 2)
+                    {
+                        if (diccionarioRepetidas.ContainsKey(item))
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            int cont = 0;
+                            for (int x = 0; x < listaPalabrasTotal.Count; x++)
+                            {
+                                if (item.Equals(listaPalabrasTotal[x]))
+                                {
+                                    cont += 1;
+                                }
+                            }
+                            diccionarioRepetidas.Add(item, cont);
+                        }
+                    }
+                }
+            });
         }
     }
 
