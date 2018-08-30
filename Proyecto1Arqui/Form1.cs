@@ -215,7 +215,7 @@ namespace Proyecto1Arqui
                     if (checkBox1.Checked == true)
                     {
                         //llamese al metodo de palabra de mayor longitud
-                        metP.getPalabraLarga(metP.data);
+                        metP.palabraLarga();
 
                     }
                     if (checkBox2.Checked == true)
@@ -244,36 +244,36 @@ namespace Proyecto1Arqui
                     {
                         //llamese al metodo de numero de veces que aparece una palabra
                         string valor = ShowDialog2("Indique la palabra", "Numero de veces de una palabra");
-                        metP.cantPalabraParticular(metP.data, valor);
+                        metP.palabraParticular(valor);
 
                     }
                     if (checkBox4.Checked == true)
                     {
                         //llamese al metodo de Total de palabras
-                        metP.getTotalPalabras(metP.data);
+                        metP.totalPalabrasParalelo();
                     }
                 }, () =>
                 {
                     if (checkBox5.Checked == true)
                     {
                         //llamese al metodo de numero de palabras diferentes
-                        metP.getPalabrasDiferentes(metP.data);
+                        metP.palabrasDiferentesParalelo();
                     }
                     if (checkBox6.Checked == true)
                     {
                         //llamese al metodo de numero total de caracteres
-                        metP.getTotalCaracters(metP.data);
+                        metP.totalCaracteresParalelo();
                     }
                     if (checkBox7.Checked == true)
                     {
                         //llamese al metodo de numero de caracteres sin espacio
-                        metP.getTotalCaracters(metP.data);
+                        metP.caracteresEspaciosParalelo();
 
                     }
                     if (checkBox8.Checked == true)
                     {
                         //llamese al metodo de recuento de oraciones
-                        metP.getTotalOraciones(metP.data);
+                        metP.totalOracionesParalelo();
 
                     }
                 });
@@ -362,7 +362,7 @@ namespace Proyecto1Arqui
                 Parallel.Invoke(()=> 
                 {
                     //llamese al metodo de palabra de mayor longitud
-                    metP.getPalabraLarga(metP.data);
+                    metP.palabraLarga();
 
                     //llamese al metodo de "N" palabras mas comunes
                     metP.descomponerLineaP(metP.data);
@@ -386,24 +386,24 @@ namespace Proyecto1Arqui
 
                     //llamese al metodo de numero de veces que aparece una palabra
                     string valorx = ShowDialog2("Indique la palabra", "Numero de veces de una palabra");
-                    metP.cantPalabraParticular(metP.data, valorx);
+                    metP.palabraParticular(valorx);
 
                     //llamese al metodo de Total de palabras
-                    metP.getTotalPalabras(metP.data);
+                    metP.totalPalabrasParalelo();
 
                 }, () =>
                 {
                     //llamese al metodo de numero de palabras diferentes
-                    metP.getPalabrasDiferentes(metP.data);
+                    metP.palabrasDiferentesParalelo();
 
                     //llamese al metodo de numero total de caracteres
-                    metP.getTotalCaracters(metP.data);
+                    metP.totalCaracteresParalelo();
 
                     //llamese al metodo de numero de caracteres sin espacio
-                    metP.getTotalCaracters(metP.data);
+                    metP.caracteresEspaciosParalelo();
 
                     //llamese al metodo de recuento de oraciones
-                    metP.getTotalOraciones(metP.data);
+                    metP.totalOracionesParalelo();
 
                 });
             }
