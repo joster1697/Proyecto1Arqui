@@ -52,7 +52,8 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Metodos.cs" />
+    <Compile Include="MetodoParalelo.cs" />
+    <Compile Include="MetodosB.cs" />
     <Compile Include="MetodoSecuencial.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

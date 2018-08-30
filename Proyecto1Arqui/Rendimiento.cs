@@ -5,13 +5,19 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
+using System.Timers;
 using System.Windows.Forms;
+using System.Threading.Tasks;
+using System.Diagnostics;
+
 
 namespace Proyecto1Arqui
 {
     public partial class Rendimiento : Form
     {
+        bool iscontinue = true;
+
         public Rendimiento()
         {
             InitializeComponent();
@@ -21,40 +27,60 @@ namespace Proyecto1Arqui
         {
             this.Close();
         }
-
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            progressBar1.Value = (int)(performanceCounter1.NextValue());
-            label1.Text = "CPU: " + progressBar1.Value.ToString() + "%";
-
-            progressBar2.Value = (int)(performanceCounter2.NextValue());
-            label2.Text = "RAM: " + progressBar2.Value.ToString() + "%";
-
-            chart1.Series["CPU"].Points.AddY(progressBar1.Value);
-            chart1.Series["RAM"].Points.AddY(progressBar2.Value);
-
-            if (progressBar1.Value > 20)
-            {
-                progressBar1.ForeColor = Color.Red;
-            }
-            else
-            {
-                progressBar1.ForeColor = Color.LimeGreen;
-            }
-
-            if (progressBar2.Value > 20)
-            {
-                progressBar2.ForeColor = Color.Red;
-            }
-            else
-            {
-                progressBar2.ForeColor = Color.LimeGreen;
-            }
-        }
-
+        
         private void Rendimiento_Load(object sender, EventArgs e)
         {
+            // Esta propiedad es necesaria para poder crear thread en modo "no seguro"
+            CheckForIllegalCrossThreadCalls = false;
+
+            // Invoca hilos en modo "no seguro", se llama el hilo que obtiene el uso de la CPU
+            Thread demoThread = new Thread(new ThreadStart(this.CPUInfoThread));
+
+            demoThread.Start();
             timer1.Start();
+
+        }
+
+        private void CPUInfoThread()
+        {
+            try
+            {
+
+                Thread thread = new Thread(new ThreadStart(delegate ()
+                {
+                    try
+                    {
+                        while (iscontinue)
+                        {
+                            progressBar1.Value = (int)(performanceCounter1.NextValue());
+                            label1.Text = "CPU: " + progressBar1.Value.ToString() + "%";
+
+                            progressBar2.Value = (int)(performanceCounter2.NextValue());
+                            label2.Text = "RAM: " + progressBar2.Value.ToString() + "%";
+
+                            chart1.Series["CPU"].Points.AddY(progressBar1.Value);
+                            chart1.Series["RAM"].Points.AddY(progressBar2.Value);
+
+                            Thread.Sleep(1000);
+
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+
+                }));
+
+                thread.Priority = ThreadPriority.Highest;
+                thread.IsBackground = true;
+                thread.Start();//Start the Thread
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
         }
     }
 }

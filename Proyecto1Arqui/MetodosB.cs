@@ -2,10 +2,12 @@
 using Word = Microsoft.Office.Interop.Word;
 using System.IO;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Proyecto1Arqui
 {
-    class Metodos
+    class MetodosB
     {
         /// <summary>
         /// Leeer archivos de texto, word.
@@ -42,9 +44,6 @@ namespace Proyecto1Arqui
             String data = doc.Content.Text.ToString();
             //cerramos el archivo
             doc.Close(ref missing, ref missing, ref missing);
-
-            descomponerLinea(data);
-            
         }
 
         public void leerTexto(String fileName)
@@ -163,5 +162,33 @@ namespace Proyecto1Arqui
 		public ArrayList getPalabraLarga() {
 			return palabraLarga;
 		}
+
+        public Dictionary<string, int> diccionarioRepetidas = new Dictionary<string, int>();
+       
+
+        public void PalabrasRepetidas(int valor)
+        {   
+            foreach (string item in listaPalabras)
+            {
+                if (diccionarioRepetidas.ContainsKey(item))
+                {
+                    continue;
+                }
+                else
+                {
+                    int cont = 0;
+                    for (int x = 0; x < listaPalabras.Count; x++)
+                    {
+                        if (item.Equals(listaPalabras[x]))
+                        {
+                            cont += 1;
+                        }
+                    }
+
+                    diccionarioRepetidas.Add(item, cont);
+                }
+            }
+
+        }
 	}
 }

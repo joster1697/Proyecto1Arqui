@@ -40,7 +40,6 @@
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.performanceCounter1 = new System.Diagnostics.PerformanceCounter();
             this.performanceCounter2 = new System.Diagnostics.PerformanceCounter();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
@@ -121,7 +120,6 @@
             // timer1
             // 
             this.timer1.Interval = 200;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // performanceCounter1
             // 
@@ -165,7 +163,6 @@
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
         private System.Windows.Forms.Timer timer1;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Diagnostics.PerformanceCounter performanceCounter1;
         private System.Diagnostics.PerformanceCounter performanceCounter2;
     }
