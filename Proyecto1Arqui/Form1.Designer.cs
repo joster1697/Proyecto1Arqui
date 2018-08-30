@@ -46,10 +46,10 @@
             this.label4 = new System.Windows.Forms.Label();
             this.explorarButton = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.rendimientoButton = new System.Windows.Forms.Button();
+            this.listBox1 = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
             // 
             // label1
@@ -225,14 +225,6 @@
             this.label3.TabIndex = 24;
             this.label3.Text = "Abrir documento de Texto";
             // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(380, 190);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(365, 191);
-            this.textBox1.TabIndex = 23;
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -261,11 +253,20 @@
             this.rendimientoButton.UseVisualStyleBackColor = true;
             this.rendimientoButton.Click += new System.EventHandler(this.rendimientoButton_Click);
             // 
+            // listBox1
+            // 
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.Location = new System.Drawing.Point(343, 190);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(445, 212);
+            this.listBox1.TabIndex = 42;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.listBox1);
             this.Controls.Add(this.rendimientoButton);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.checkBox10);
@@ -284,7 +285,6 @@
             this.Controls.Add(this.label4);
             this.Controls.Add(this.explorarButton);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label1);
@@ -316,10 +316,10 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button explorarButton;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button rendimientoButton;
+        private System.Windows.Forms.ListBox listBox1;
     }
 }
 

@@ -52,7 +52,6 @@ namespace Proyecto1Arqui
             }
         }
 
-
         public static int ShowDialog(string text, string caption)
         {
             Form prompt = new Form();
@@ -109,6 +108,8 @@ namespace Proyecto1Arqui
         {
             if (checkBox9.Checked == true)
             {
+                this.listBox1.Items.Add("Metodos Secuencial: ");
+
                 //De forma secuencial
                 if (fileName != null)
                 {
@@ -128,8 +129,14 @@ namespace Proyecto1Arqui
                     if (checkBox1.Checked == true)
                     {
                         //llamese al metodo de palabra de mayor longitud
-                        metS.getPalabraLarga(metS.data);
+                        ArrayList list = metS.getPalabraLarga(metS.data);
 
+                        string resultado = "Palabra más larga: ";
+                        foreach (var item in list)
+                        {
+                            resultado += item + ", ";
+                        }
+                        this.listBox1.Items.Add(resultado);
                     }
                     if (checkBox2.Checked == true)
                     {
@@ -145,55 +152,62 @@ namespace Proyecto1Arqui
                         };
                         IOrderedEnumerable<KeyValuePair<string, int>> ordenado = metS.diccionarioRepetidas.OrderByDescending(ordenar);
                         int cont2 = 0;
+                        string result = "Palabras más comunes: ";
                         foreach (var itemx1 in ordenado)
                         {
                             if (cont2 < valor)
                             {
                                 //Modificar Para que imprima en la pantalla de impresion
-                                Console.WriteLine(itemx1.Key + "   " + itemx1.Value);
-                                Console.Read();
+                                cont2 += 1;
+                                result += itemx1.Key + " " + itemx1.Value + ", ";
                             }
                         }
+                        this.listBox1.Items.Add(result);
                     }
                     if (checkBox3.Checked == true)
                     {
                         //llamese al metodo de numero de veces que aparece una palabra
                         string valor = ShowDialog2("Indique la palabra", "Numero de veces de una palabra");
-                        metS.cantPalabraParticular(metS.data, valor);
+                        int x = metS.cantPalabraParticular(metS.data, valor);
+                        this.listBox1.Items.Add(valor + "Número veces que aparece: " + x.ToString());
                     }
                     if (checkBox4.Checked == true)
                     {
                         //llamese al metodo de Total de palabras
-                        metS.getTotalPalabras(metS.data);
+                        int x = metS.getTotalPalabras(metS.data);
+                        this.listBox1.Items.Add("Número total de palabras: " + x.ToString());
                     }
-                }, () =>
-                {
+
                     if (checkBox5.Checked == true)
                     {
                         //llamese al metodo de numero de palabras diferentes
-                        metS.getPalabrasDiferentes(metS.data);
+                        int x = metS.getPalabrasDiferentes(metS.data);
+                        this.listBox1.Items.Add("Número palabras diferentes: " + x.ToString());
                     }
                     if (checkBox6.Checked == true)
                     {
                         //llamese al metodo de numero total de caracteres
-                        metS.getTotalCaracters(metS.data);
+                        int x = metS.getTotalCaracters(metS.data);
+                        this.listBox1.Items.Add("Número total de caracteres: " + x.ToString());
                     }
                     if (checkBox7.Checked == true)
                     {
                         //llamese al metodo de numero de caracteres sin espacio
-                        metS.getTotalCaracters(metS.data);
-
+                        int x = metS.getCaracteresEspacios(metS.data);
+                        this.listBox1.Items.Add("Número total de caracteres sin espacios: " + x.ToString());
                     }
                     if (checkBox8.Checked == true)
                     {
                         //llamese al metodo de recuento de oraciones
-                        metS.getTotalOraciones(metS.data);
-
+                        int x = metS.getTotalOraciones(metS.data);
+                        this.listBox1.Items.Add("Número de oraciones: " + x.ToString());
                     }
                 });
             }
             else if (checkBox10.Checked == true)
             {
+                this.listBox1.Items.Add("Metodos Concurrentes: ");
+
                 //hacer de manera concurrente
                 if (fileName != null)
                 {
@@ -215,7 +229,13 @@ namespace Proyecto1Arqui
                     if (checkBox1.Checked == true)
                     {
                         //llamese al metodo de palabra de mayor longitud
-                        metP.palabraLarga();
+                        string resultado = "Palabra más larga: ";
+                        ArrayList list = metP.palabraLarga();
+                        foreach (var item in list)
+                        {
+                            resultado += item + ", ";
+                        }
+                        this.listBox1.Items.Add(resultado);
 
                     }
                     if (checkBox2.Checked == true)
@@ -231,50 +251,54 @@ namespace Proyecto1Arqui
                         };
                         IOrderedEnumerable<KeyValuePair<string, int>> ordenado = metP.diccionarioRepetidas.OrderByDescending(ordenar);
                         int cont2 = 0;
+                        string result = "Palabras más comunes: ";
                         foreach (var itemx1 in ordenado)
                         {
                             if (cont2 < valor)
                             {
-                                Console.WriteLine(itemx1.Key + "   " + itemx1.Value);
-                                Console.Read();
+                                cont2 += 1;
+                                result += itemx1.Key + " " + itemx1.Value + ", ";
                             }
                         }
+                        this.listBox1.Items.Add(result);
                     }
                     if (checkBox3.Checked == true)
                     {
                         //llamese al metodo de numero de veces que aparece una palabra
                         string valor = ShowDialog2("Indique la palabra", "Numero de veces de una palabra");
-                        metP.palabraParticular(valor);
-
+                        int x = metP.palabraParticular(valor);
+                        this.listBox1.Items.Add(valor + "Número veces que aparece: " + x.ToString());
                     }
                     if (checkBox4.Checked == true)
                     {
                         //llamese al metodo de Total de palabras
-                        metP.totalPalabrasParalelo();
+                        int x = metP.totalPalabrasParalelo();
+                        this.listBox1.Items.Add("Número total de palabras: " + x.ToString());
                     }
-                }, () =>
-                {
+
                     if (checkBox5.Checked == true)
                     {
                         //llamese al metodo de numero de palabras diferentes
-                        metP.palabrasDiferentesParalelo();
+                        int x = metP.palabrasDiferentesParalelo();
+                        this.listBox1.Items.Add("Número palabras diferentes: " + x.ToString());
                     }
                     if (checkBox6.Checked == true)
                     {
                         //llamese al metodo de numero total de caracteres
-                        metP.totalCaracteresParalelo();
+                        int x = metP.totalCaracteresParalelo();
+                        this.listBox1.Items.Add("Número total de caracteres: " + x.ToString());
                     }
                     if (checkBox7.Checked == true)
                     {
                         //llamese al metodo de numero de caracteres sin espacio
-                        metP.caracteresEspaciosParalelo();
-
+                        int x = metP.caracteresEspaciosParalelo();
+                        this.listBox1.Items.Add("Número caracteres sin espacio: " + x.ToString());
                     }
                     if (checkBox8.Checked == true)
                     {
                         //llamese al metodo de recuento de oraciones
-                        metP.totalOracionesParalelo();
-
+                        int x = metP.totalOracionesParalelo();
+                        this.listBox1.Items.Add("Número total de oraciones: " + x.ToString());
                     }
                 });
             }
@@ -282,6 +306,8 @@ namespace Proyecto1Arqui
 
         private void ejecutarTodoButton_Click(object sender, EventArgs e)
         {
+            this.listBox1.Items.Add("Metodos Secuencial: ");
+
             //llamese a todos los metodos uno por uno
             if (checkBox9.Checked == true)
             {
@@ -301,10 +327,19 @@ namespace Proyecto1Arqui
                 }
 
                 //llamese al metodo de palabra de mayor longitud
-                metS.getPalabraLarga(metS.data);
+                ArrayList list = metS.getPalabraLarga(metS.data);
+
+                string resultado = "Palabra más larga: ";
+                foreach (var item in list)
+                {
+                    resultado += item + ", ";
+                }
+                this.listBox1.Items.Add(resultado);
+
 
                 //llamese al metodo de "N" palabras mas comunes
                 metS.descomponerLineaS(metS.data);
+
                 int valor = ShowDialog("Cantidad de palabras:", "Cantidad de Palabras a buscar");
                 metS.PalabrasRepetidas(valor);
 
@@ -312,39 +347,54 @@ namespace Proyecto1Arqui
                 {
                     return item2.Value;
                 };
-                IOrderedEnumerable<KeyValuePair<string, int>> ordenado = metP.diccionarioRepetidas.OrderByDescending(ordenar);
+                IOrderedEnumerable<KeyValuePair<string, int>> ordenado = metS.diccionarioRepetidas.OrderByDescending(ordenar);
                 int cont2 = 0;
+                string result = "Palabras más comunes: ";
                 foreach (var itemx1 in ordenado)
                 {
                     if (cont2 < valor)
                     {
-                        Console.WriteLine(itemx1.Key + "   " + itemx1.Value);
-                        Console.Read();
+                        //Modificar Para que imprima en la pantalla de impresion
+                        cont2 += 1;
+                        result += itemx1.Key + " " + itemx1.Value + ", ";
                     }
                 }
+                this.listBox1.Items.Add(result);
+
 
                 //llamese al metodo de numero de veces que aparece una palabra
                 string valorx = ShowDialog2("Indique la palabra", "Numero de veces de una palabra");
-                metS.cantPalabraParticular(metS.data, valorx);
+                int x = metS.cantPalabraParticular(metS.data, valorx);
+                this.listBox1.Items.Add(valor + "Número veces que aparece: " + x.ToString());
+
 
                 //llamese al metodo de Total de palabras
-                metS.getTotalPalabras(metS.data);
+                int x2 = metS.getTotalPalabras(metS.data);
+                this.listBox1.Items.Add("Número total de palabras: " + x2.ToString());
+
+
 
                 //llamese al metodo de numero de palabras diferentes
-                metS.getPalabrasDiferentes(metS.data);
+                int x3 = metS.getPalabrasDiferentes(metS.data);
+                this.listBox1.Items.Add("Número palabras diferentes: " + x3.ToString());
 
                 //llamese al metodo de numero total de caracteres
-                metS.getTotalCaracters(metS.data);
+                int x4 = metS.getTotalCaracters(metS.data);
+                this.listBox1.Items.Add("Número total de caracteres: " + x4.ToString());
 
                 //llamese al metodo de numero de caracteres sin espacio
-                metS.getTotalCaracters(metS.data);
+                int x5 = metS.getCaracteresEspacios(metS.data);
+                this.listBox1.Items.Add("Número total de caracteres sin espacios: " + x5.ToString());
 
                 //llamese al metodo de recuento de oraciones
-                metS.getTotalOraciones(metS.data);
+                int x6 = metS.getTotalOraciones(metS.data);
+                this.listBox1.Items.Add("Número de oraciones: " + x6.ToString());
 
             }
             else if (checkBox10.Checked == true)
             {
+                this.listBox1.Items.Add("Metodos Concurrentes: ");
+
                 //hacer de manera concurrente
                 if (fileName != null)
                 {
@@ -359,10 +409,18 @@ namespace Proyecto1Arqui
                         metP.leerWord(fileName);
                     }
                 }
-                Parallel.Invoke(()=> 
+                Parallel.Invoke(() =>
                 {
+
                     //llamese al metodo de palabra de mayor longitud
-                    metP.palabraLarga();
+                    string resultado = "Palabra más larga: ";
+                    ArrayList list = metP.palabraLarga();
+                    foreach (var item in list)
+                    {
+                        resultado += item + ", ";
+                    }
+                    this.listBox1.Items.Add(resultado);
+
 
                     //llamese al metodo de "N" palabras mas comunes
                     metP.descomponerLineaP(metP.data);
@@ -375,35 +433,43 @@ namespace Proyecto1Arqui
                     };
                     IOrderedEnumerable<KeyValuePair<string, int>> ordenado = metP.diccionarioRepetidas.OrderByDescending(ordenar);
                     int cont2 = 0;
+                    string result = "Palabras más comunes: ";
                     foreach (var itemx1 in ordenado)
                     {
                         if (cont2 < valor)
                         {
-                            Console.WriteLine(itemx1.Key + "   " + itemx1.Value);
-                            Console.Read();
+                            cont2 += 1;
+                            result += itemx1.Key + " " + itemx1.Value + ", ";
                         }
                     }
+                    this.listBox1.Items.Add(result);
 
                     //llamese al metodo de numero de veces que aparece una palabra
                     string valorx = ShowDialog2("Indique la palabra", "Numero de veces de una palabra");
-                    metP.palabraParticular(valorx);
+                    int x = metP.palabraParticular(valorx);
+                    this.listBox1.Items.Add(valor + "Número veces que aparece: " + x.ToString());
 
                     //llamese al metodo de Total de palabras
-                    metP.totalPalabrasParalelo();
+                    int x1 = metP.totalPalabrasParalelo();
+                    this.listBox1.Items.Add("Número total de palabras: " + x1.ToString());
 
-                }, () =>
-                {
                     //llamese al metodo de numero de palabras diferentes
-                    metP.palabrasDiferentesParalelo();
+                    int x2 = metP.palabrasDiferentesParalelo();
+                    this.listBox1.Items.Add("Número palabras diferentes: " + x2.ToString());
 
                     //llamese al metodo de numero total de caracteres
-                    metP.totalCaracteresParalelo();
+                    int x3 = metP.totalCaracteresParalelo();
+                    this.listBox1.Items.Add("Número total de caracteres: " + x3.ToString());
 
                     //llamese al metodo de numero de caracteres sin espacio
-                    metP.caracteresEspaciosParalelo();
+                    int x4 = metP.caracteresEspaciosParalelo();
+                    this.listBox1.Items.Add("Número caracteres sin espacio: " + x4.ToString());
+
 
                     //llamese al metodo de recuento de oraciones
-                    metP.totalOracionesParalelo();
+                    int x5 = metP.totalOracionesParalelo();
+                    this.listBox1.Items.Add("Número total de oraciones: " + x5.ToString());
+
 
                 });
             }
