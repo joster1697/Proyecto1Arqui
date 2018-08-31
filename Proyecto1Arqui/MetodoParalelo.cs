@@ -64,7 +64,7 @@ namespace Proyecto1Arqui
 
         public void leerTexto(String fileName)
         {
-            data = null;
+            data = "";
             using (StreamReader leer = new StreamReader(fileName))
             {
                 while (!leer.EndOfStream)
@@ -260,7 +260,15 @@ namespace Proyecto1Arqui
 
 		public int getTotalCaracters(String texto)
 		{
-			return texto.Length;
+			int cantCaracteres = 0;
+			//convierte el string a cadena de chars
+			var chars = texto.ToCharArray();
+			//ciclo que recorre la cadena de chars
+			foreach (char letra in chars)
+			{
+				cantCaracteres += 1;
+			}
+			return cantCaracteres;
 		}
 
 		public int caracteresEspaciosParalelo() {
