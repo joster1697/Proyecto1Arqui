@@ -45,13 +45,13 @@ namespace Proyecto1Arqui
 
 		public void leerTexto(String fileName)
 		{
-			String linea = null;
+			data = null;
 			using (StreamReader leer = new StreamReader(fileName))
 			{
 				while (!leer.EndOfStream)
 				{
-					linea = leer.ReadLine();
-					// ARREGLAR descomponerLinea(linea);
+					data += leer.ReadLine();
+					
 				}
 
 			}
@@ -112,75 +112,90 @@ namespace Proyecto1Arqui
 
         }
 
-        public int getPalabrasDiferentes(String texto)
+		public int getPalabrasDiferentes(string texto)
 		{
-			ArrayList listaPalabras = new ArrayList();
+			ArrayList listaRepetidas = new ArrayList();
+			ArrayList listaPalabras1 = new ArrayList();
 			//lista para almacenar una palabra
-			ArrayList palabra = new ArrayList();
+			ArrayList palabra1 = new ArrayList();
 			//cadena de chars para formar una palabra
-			Char[] palabraArray;
-			String resultado;
+			Char[] palabraArray1;
+			String resultado1;
 			//verifica si la palabra ya se ha guardado
-			Boolean palGuardada = false;
+			Boolean palGuardada1 = false;
 			//convierte el string a cadena de chars
-			var chars = texto.ToCharArray();
-			foreach (char letra in chars)
+			var chars1 = texto.ToCharArray();
+			foreach (char letra in chars1)
 			{
 				//verifica que se a una letra
 				if (Char.IsLetterOrDigit(letra) == false)
 				{
 					//crea un arreglo de la cantidad de chars de la palabra
-					palabraArray = new char[palabra.Count];
+					palabraArray1 = new char[palabra1.Count];
 					//pasa los chars a una lista
-					palabra.CopyTo(palabraArray);
+					palabra1.CopyTo(palabraArray1);
 					//se une la palabra formada
-					resultado = string.Join(null, palabraArray);
+					resultado1 = string.Join(null, palabraArray1);
 					//verifica que la palabra no este vacia
-					if (!resultado.Equals(""))
+					if (!resultado1.Equals(""))
 					{
+						if (listaPalabras1.Count == 0) listaPalabras1.Add(resultado1);
 						//verifica que sea una palabra diferente
-						foreach (String diferente in listaPalabras)
+						else
 						{
-							if (diferente.Equals(resultado))
+							foreach (String diferente in listaPalabras1)
 							{
-								break;
+								if (diferente.Equals(resultado1))
+								{
+									listaPalabras1.Remove(resultado1);
+									listaRepetidas.Add(resultado1);
+									break;
+								}
+
 							}
-							//se agrega la palabra a la lista total de palabras
-							listaPalabras.Add(resultado);
+							if (!listaRepetidas.Contains(resultado1))
+							{
+								//se agrega la palabra a la lista total de palabras
+								listaPalabras1.Add(resultado1);
+							}
 						}
-						
+
 					}
 					//se setean los valores
-					palabra = new ArrayList();
-					palGuardada = true;
+					palabra1 = new ArrayList();
+					palGuardada1 = true;
 
 				}
 				else
 				{
 					//agrega chars a la lista para conformar una palabra
-					palabra.Add(letra);
-					palGuardada = false;
+					palabra1.Add(letra);
+					palGuardada1 = false;
 				}
 			}
 			//verifica que la palabra se haya guardado
-			if (palGuardada == false)
+			if (palGuardada1 == false)
 			{
-				palabraArray = new char[palabra.Count];
-				palabra.CopyTo(palabraArray);
-				resultado = string.Join(null, palabraArray);
-				foreach (String diferente in listaPalabras)
+				palabraArray1 = new char[palabra1.Count];
+				palabra1.CopyTo(palabraArray1);
+				resultado1 = string.Join(null, palabraArray1);
+				foreach (String diferente in listaPalabras1)
 				{
-					if (diferente.Equals(resultado))
+					if (diferente.Equals(resultado1))
 					{
+						listaPalabras1.Remove(resultado1);
 						break;
 					}
-					//se agrega la palabra a la lista total de palabras
-					listaPalabras.Add(resultado);
+
 				}
-				palabra = new ArrayList();
+				if (!listaRepetidas.Contains(resultado1))
+				{
+					//se agrega la palabra a la lista total de palabras
+					listaPalabras1.Add(resultado1);
+				}
+				palabra1 = new ArrayList();
 			}
-			
-			return listaPalabras.Capacity;
+			return listaPalabras1.Capacity;
 		}
 
 		public int getTotalCaracters(String texto)
@@ -211,7 +226,7 @@ namespace Proyecto1Arqui
 			//ciclo que recorre la cadena de chars
 			foreach (char letra in chars)
 			{
-				if (letra.Equals(".")) cantOraciones += 1;
+				if (letra.Equals('.')) { cantOraciones += 1; }
 			}
 			return cantOraciones;
 		}
@@ -298,9 +313,20 @@ namespace Proyecto1Arqui
 					resultado = string.Join(null, palabraArray);
 
 					//funcion palabra mas larga
-					if (palabra.Count > palabraLargaCont) { palabraLarga.Clear(); palabraLarga.Add(resultado); }
-					else if (palabra.Count == palabraLargaCont) { palabraLarga.Add(resultado); }
-					
+					if (palabra.Count > palabraLargaCont)
+					{
+						palabraLarga.Clear();
+						palabraLarga.Add(resultado);
+						palabraLargaCont = resultado.Length;
+					}
+					else if (palabra.Count == palabraLargaCont)
+					{
+						if (!palabraLarga.Contains(resultado))
+						{
+							palabraLarga.Add(resultado);
+						}
+					}
+
 					//se setean los valores
 					palabra = new ArrayList();
 					palGuardada = true;

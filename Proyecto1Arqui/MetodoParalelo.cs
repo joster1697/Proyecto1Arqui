@@ -59,24 +59,36 @@ namespace Proyecto1Arqui
 				}
 				mitad--;
 			}
-            String Total = mitad1 + mitad2;
-            descomponerLineaP(Total);
-
-            getPalabrasDiferentes(mitad1 + mitad2);
+			
 		}
 
         public void leerTexto(String fileName)
         {
-            String linea = null;
+            data = null;
             using (StreamReader leer = new StreamReader(fileName))
             {
                 while (!leer.EndOfStream)
                 {
-                    linea = leer.ReadLine();
-                    // ARREGLAR descomponerLinea(linea);
+                    data += leer.ReadLine();
+                    
                 }
+				int mitad = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(data.Length / 2)));
 
-            }
+				var chars = data.ToCharArray();
+
+
+				while (mitad > 1)
+				{
+					var a = chars.GetValue(mitad);
+					if (chars.GetValue(mitad).Equals(' '))
+					{
+						mitad1 = data.Substring(0, mitad);
+						mitad2 = data.Substring(mitad, data.Length - mitad);
+						break;
+					}
+					mitad--;
+				}
+			}
 
         }
 
@@ -298,7 +310,7 @@ namespace Proyecto1Arqui
 			//ciclo que recorre la cadena de chars
 			foreach (char letra in chars)
 			{
-				if (letra.Equals(".")) cantOraciones += 1;
+				if (letra.Equals('.')) cantOraciones += 1;
 			}
 			return cantOraciones;
 		}
