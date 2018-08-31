@@ -102,6 +102,8 @@ namespace Proyecto1Arqui
 
         private void ejecutarSeleccionButton_Click(object sender, EventArgs e)
         {
+            CheckForIllegalCrossThreadCalls = false;
+
             if (checkBox9.Checked == true)
             {
                 //De forma secuencial
@@ -120,97 +122,117 @@ namespace Proyecto1Arqui
                     }
 					cargando.Text = "";
 				}
-                Parallel.Invoke(() =>
+                try
                 {
-					cargando.Text = "Ejecutando funciones...";
-					if (checkBox1.Checked == true)
+                    Parallel.Invoke(() =>
                     {
-						temporizador = Stopwatch.StartNew();
-						//llamese al metodo de palabra de mayor longitud
-						ArrayList list = metS.getPalabraLarga(metS.data);
-
-                        string resultado = "Palabra más larga: ";
-                        foreach (var item in list)
+                        cargando.Text = "Ejecutando funciones...";
+                        if (checkBox1.Checked == true)
                         {
-                            resultado += item + ", ";
-                        }
-						resultado += "Tiempo= " + temporizador.ElapsedMilliseconds.ToString();
-						rMayorLongitud.Text = resultado;
-                    }
-                    if (checkBox2.Checked == true)
-                    {
-						temporizador = Stopwatch.StartNew();
-						//llamese al metodo de "N" palabras mas comunes
-						metS.descomponerLineaS(metS.data);
+                            temporizador = Stopwatch.StartNew();
+                        //llamese al metodo de palabra de mayor longitud
+                        ArrayList list = metS.getPalabraLarga(metS.data);
 
-                        int valor = ShowDialog("Cantidad de palabras:", "Cantidad de Palabras a buscar");
-                        metS.PalabrasRepetidas(valor);
-
-                        Func<KeyValuePair<string, int>, int> ordenar = delegate (KeyValuePair<string, int> item2)
-                        {
-                            return item2.Value;
-                        };
-                        IOrderedEnumerable<KeyValuePair<string, int>> ordenado = metS.diccionarioRepetidas.OrderByDescending(ordenar);
-                        int cont2 = 0;
-                        string resultado = "Palabras más comunes: ";
-                        foreach (var itemx1 in ordenado)
-                        {
-                            if (cont2 < valor)
+                            string resultado = "Palabra más larga: ";
+                            foreach (var item in list)
                             {
+                                resultado += item + ", ";
+                            }
+                            resultado += "Tiempo= " + temporizador.ElapsedMilliseconds.ToString();
+                            rMayorLongitud.Text = resultado;
+                        }
+                    }, () =>
+                    {
+                        if (checkBox2.Checked == true)
+                        {
+                            temporizador = Stopwatch.StartNew();
+                        //llamese al metodo de "N" palabras mas comunes
+                        metS.descomponerLineaS(metS.data);
+
+                            int valor = ShowDialog("Cantidad de palabras:", "Cantidad de Palabras a buscar");
+                            metS.PalabrasRepetidas(valor);
+
+                            Func<KeyValuePair<string, int>, int> ordenar = delegate (KeyValuePair<string, int> item2)
+                            {
+                                return item2.Value;
+                            };
+                            IOrderedEnumerable<KeyValuePair<string, int>> ordenado = metS.diccionarioRepetidas.OrderByDescending(ordenar);
+                            int cont2 = 0;
+                            string resultado = "Palabras más comunes: ";
+                            foreach (var itemx1 in ordenado)
+                            {
+                                if (cont2 < valor)
+                                {
                                 //Modificar Para que imprima en la pantalla de impresion
                                 cont2 += 1;
-                                resultado += itemx1.Key + " " + itemx1.Value + ", ";
+                                    resultado += itemx1.Key + " " + itemx1.Value + ", ";
+                                }
                             }
+                            resultado += "Tiempo= " + temporizador.ElapsedMilliseconds.ToString();
+                            rPalabrasComunes.Text = resultado;
                         }
-						resultado += "Tiempo= " + temporizador.ElapsedMilliseconds.ToString();
-						rPalabrasComunes.Text = resultado;
-                    }
-                    if (checkBox3.Checked == true)
+                    }, () =>
                     {
-						temporizador = Stopwatch.StartNew();
-						//llamese al metodo de numero de veces que aparece una palabra
-						string valor = ShowDialog2("Indique la palabra", "Numero de veces de una palabra");
-                        int x = metS.cantPalabraParticular(metS.data, valor);
-                        rPalabraVeces.Text = valor + " Número veces que aparece: " + x.ToString()+ ", Tiempo= "+temporizador.ElapsedMilliseconds;
-                    }
-                    if (checkBox4.Checked == true)
+                        if (checkBox3.Checked == true)
+                        {
+                            temporizador = Stopwatch.StartNew();
+                        //llamese al metodo de numero de veces que aparece una palabra
+                        string valor = ShowDialog2("Indique la palabra", "Numero de veces de una palabra");
+                            int x = metS.cantPalabraParticular(metS.data, valor);
+                            rPalabraVeces.Text = valor + " Número veces que aparece: " + x.ToString() + ", Tiempo= " + temporizador.ElapsedMilliseconds;
+                        }
+                    }, () =>
                     {
-						temporizador = Stopwatch.StartNew();
-						//llamese al metodo de Total de palabras
-						int x = metS.getTotalPalabras(metS.data);
-                        rTotalPalabras.Text = "Número total de palabras: " + x.ToString() + ", Tiempo= " + temporizador.ElapsedMilliseconds;
-                    }
-
-                    if (checkBox5.Checked == true)
+                        if (checkBox4.Checked == true)
+                        {
+                            temporizador = Stopwatch.StartNew();
+                        //llamese al metodo de Total de palabras
+                        int x = metS.getTotalPalabras(metS.data);
+                            rTotalPalabras.Text = "Número total de palabras: " + x.ToString() + ", Tiempo= " + temporizador.ElapsedMilliseconds;
+                        }
+                    }, () =>
                     {
-						temporizador = Stopwatch.StartNew();
-						//llamese al metodo de numero de palabras diferentes
-						int x = metS.getPalabrasDiferentes(metS.data);
-                        rPalabrasDiferentes.Text = "Número palabras diferentes: " + x.ToString() + ", Tiempo= " + temporizador.ElapsedMilliseconds;
-                    }
-                    if (checkBox6.Checked == true)
+                        if (checkBox5.Checked == true)
+                        {
+                            temporizador = Stopwatch.StartNew();
+                        //llamese al metodo de numero de palabras diferentes
+                        int x = metS.getPalabrasDiferentes(metS.data);
+                            rPalabrasDiferentes.Text = "Número palabras diferentes: " + x.ToString() + ", Tiempo= " + temporizador.ElapsedMilliseconds;
+                        }
+                    }, () =>
                     {
-						temporizador = Stopwatch.StartNew();
-						//llamese al metodo de numero total de caracteres
-						int x = metS.getTotalCaracters(metS.data);
-                        rTotalCaracteres.Text = "Número total de caracteres: " + x.ToString() + ", Tiempo= " + temporizador.ElapsedMilliseconds;
-                    }
-                    if (checkBox7.Checked == true)
+                        if (checkBox6.Checked == true)
+                        {
+                            temporizador = Stopwatch.StartNew();
+                        //llamese al metodo de numero total de caracteres
+                        int x = metS.getTotalCaracters(metS.data);
+                            rTotalCaracteres.Text = "Número total de caracteres: " + x.ToString() + ", Tiempo= " + temporizador.ElapsedMilliseconds;
+                        }
+                    }, () =>
                     {
-						temporizador = Stopwatch.StartNew();
-						//llamese al metodo de numero de caracteres sin espacio
-						int x = metS.getCaracteresEspacios(metS.data);
-                        rEspacios.Text = "Número total de caracteres sin espacios: " + x.ToString() + ", Tiempo= " + temporizador.ElapsedMilliseconds;
-                    }
-                    if (checkBox8.Checked == true)
-                    {
-						temporizador = Stopwatch.StartNew();
-						//llamese al metodo de recuento de oraciones
-						int x = metS.getTotalOraciones(metS.data);
-                        rOraciones.Text = "Número de oraciones: " + x.ToString() + ", Tiempo= " + temporizador.ElapsedMilliseconds;
-                    }
-					cargando.Text = "Utilizado Método Secuencial";
-				});
+                        if (checkBox7.Checked == true)
+                        {
+                            temporizador = Stopwatch.StartNew();
+                        //llamese al metodo de numero de caracteres sin espacio
+                        int x = metS.getCaracteresEspacios(metS.data);
+                            rEspacios.Text = "Número total de caracteres sin espacios: " + x.ToString() + ", Tiempo= " + temporizador.ElapsedMilliseconds;
+                        }
+                    }, () =>
+            {
+                        if (checkBox8.Checked == true)
+                        {
+                            temporizador = Stopwatch.StartNew();
+                        //llamese al metodo de recuento de oraciones
+                        int x = metS.getTotalOraciones(metS.data);
+                            rOraciones.Text = "Número de oraciones: " + x.ToString() + ", Tiempo= " + temporizador.ElapsedMilliseconds;
+                        }
+                        cargando.Text = "Utilizado Método Secuencial";
+                    });
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
             else if (checkBox10.Checked == true)
             {
@@ -233,110 +255,173 @@ namespace Proyecto1Arqui
 				}
 				//Preguntar Cuales Checkbox estan activas
 				cargando.Text = "Ejecutando funciones...";
-				Parallel.Invoke(() =>
-				{
-					
-					if (checkBox1.Checked == true)
-					{
-						temporizador = Stopwatch.StartNew();
-						//llamese al metodo de palabra de mayor longitud
-						string resultado = "Palabra más larga: ";
-						ArrayList list = metP.palabraLarga();
-						foreach (var item in list)
-						{
-							resultado += item + ", ";
-						}
-						resultado += "Tiempo= " + temporizador.ElapsedMilliseconds;
-						rMayorLongitud.Text = resultado;
+                try
+                {
+                    Parallel.Invoke(() =>
+                    {
+                        try
+                        {
+                            if (checkBox1.Checked == true)
+                            {
+                                temporizador = Stopwatch.StartNew();
+                            //llamese al metodo de palabra de mayor longitud
+                            string resultado = "Palabra más larga: ";
+                                ArrayList list = metP.palabraLarga();
+                                foreach (var item in list)
+                                {
+                                    resultado += item + ", ";
+                                }
+                                resultado += "Tiempo= " + temporizador.ElapsedMilliseconds;
+                                rMayorLongitud.Text = resultado;
 
-					}
-				}, () =>
-				 {
-					 if (checkBox2.Checked == true)
-					 {
-						 int valor = ShowDialog("Cantidad de palabras:", "Cantidad de Palabras a buscar");
-						 temporizador = Stopwatch.StartNew();
-						//llamese al metodo de "N" palabras mas comunes
-						metP.descomponerLineaP(metP.data);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message);
+                        }
+                    }, () =>
+                     {
+                         try
+                         {
+                             if (checkBox2.Checked == true)
+                             {
+                                 int valor = ShowDialog("Cantidad de palabras:", "Cantidad de Palabras a buscar");
+                                 temporizador = Stopwatch.StartNew();
+                             //llamese al metodo de "N" palabras mas comunes
+                             metP.descomponerLineaP(metP.data);
 
-						 metP.PalabrasRepetidas(valor);
+                                 metP.PalabrasRepetidas(valor);
 
-						 Func<KeyValuePair<string, int>, int> ordenar = delegate (KeyValuePair<string, int> item2)
-						 {
-							 return item2.Value;
-						 };
-						 IOrderedEnumerable<KeyValuePair<string, int>> ordenado = metP.diccionarioRepetidas.OrderByDescending(ordenar);
-						 int cont2 = 0;
-						 string result = "Palabras más comunes: ";
-						 foreach (var itemx1 in ordenado)
-						 {
-							 if (cont2 < valor)
-							 {
-								 cont2 += 1;
-								 result += itemx1.Key + " " + itemx1.Value + ", ";
-							 }
-						 }
-						 result += "Tiempo= " + temporizador.ElapsedMilliseconds;
-						 rPalabrasComunes.Text = result;
-					 }
-				 }, () =>
-				 {
-					 if (checkBox3.Checked == true)
-					 {
-						//llamese al metodo de numero de veces que aparece una palabra
-						string valor = ShowDialog2("Indique la palabra", "Numero de veces de una palabra");
-						 int x = metP.palabraParticular(valor);
-						 rPalabraVeces.Text =  valor + "Número veces que aparece: " + x.ToString();
-					 }
-				 }, () =>
-				 {
-					 if (checkBox4.Checked == true)
-					 {
-						//llamese al metodo de Total de palabras
-						int x = metP.totalPalabrasParalelo();
-						 rTotalPalabras.Text = "Número total de palabras: " + x.ToString();
-					 }
-				 }, () =>
-				 {
+                                 Func<KeyValuePair<string, int>, int> ordenar = delegate (KeyValuePair<string, int> item2)
+                                 {
+                                     return item2.Value;
+                                 };
+                                 IOrderedEnumerable<KeyValuePair<string, int>> ordenado = metP.diccionarioRepetidas.OrderByDescending(ordenar);
+                                 int cont2 = 0;
+                                 string result = "Palabras más comunes: ";
+                                 foreach (var itemx1 in ordenado)
+                                 {
+                                     if (cont2 < valor)
+                                     {
+                                         cont2 += 1;
+                                         result += itemx1.Key + " " + itemx1.Value + ", ";
+                                     }
+                                 }
+                                 result += "Tiempo= " + temporizador.ElapsedMilliseconds;
+                                 rPalabrasComunes.Text = result;
+                             }
+                         }
+                         catch (Exception ex)
+                         {
+                             MessageBox.Show(ex.Message);
+                         }
+                     }, () =>
+                     {
+                         try
+                         {
+                             if (checkBox3.Checked == true)
+                             {
+                             //llamese al metodo de numero de veces que aparece una palabra
+                             string valor = ShowDialog2("Indique la palabra", "Numero de veces de una palabra");
+                                 int x = metP.palabraParticular(valor);
+                                 rPalabraVeces.Text = valor + "Número veces que aparece: " + x.ToString();
+                             }
+                         }
+                         catch (Exception ex)
+                         {
+                             MessageBox.Show(ex.Message);
+                         }
+                     }, () =>
+                     {
+                         try
+                         {
+                             if (checkBox4.Checked == true)
+                             {
+                             //llamese al metodo de Total de palabras
+                             int x = metP.totalPalabrasParalelo();
+                                 rTotalPalabras.Text = "Número total de palabras: " + x.ToString();
+                             }
+                         }
+                         catch (Exception ex)
+                         {
+                             MessageBox.Show(ex.Message);
+                         }
 
-					 if (checkBox5.Checked == true)
-					 {
-						//llamese al metodo de numero de palabras diferentes
-						int x = metP.palabrasDiferentesParalelo();
-						 rPalabrasDiferentes.Text = "Número palabras diferentes: " + x.ToString();
-					 }
-				 }, () =>
-				 {
-					 if (checkBox6.Checked == true)
-					 {
-						//llamese al metodo de numero total de caracteres
-						int x = metP.totalCaracteresParalelo();
-						 rTotalCaracteres.Text = "Número total de caracteres: " + x.ToString();
-					 }
-				 }, () =>
-				 {
-					 if (checkBox7.Checked == true)
-					 {
-						//llamese al metodo de numero de caracteres sin espacio
-						int x = metP.caracteresEspaciosParalelo();
-						 rEspacios.Text = "Número caracteres sin espacio: " + x.ToString();
-					 }
-				 }, () =>
-				 {
-					 if (checkBox8.Checked == true)
-					 {
-						//llamese al metodo de recuento de oraciones
-						int x = metP.totalOracionesParalelo();
-						rOraciones.Text = "Número total de oraciones: " + x.ToString();
-					 }
-				 });
-				cargando.Text = "Utilizado Método Concurrente";
-
-			}
+                     }, () =>
+                     {
+                         try
+                         {
+                             if (checkBox5.Checked == true)
+                             {
+                             //llamese al metodo de numero de palabras diferentes
+                             int x = metP.palabrasDiferentesParalelo();
+                                 rPalabrasDiferentes.Text = "Número palabras diferentes: " + x.ToString();
+                             }
+                         }
+                         catch (Exception ex)
+                         {
+                             MessageBox.Show(ex.Message);
+                         }
+                     }, () =>
+                     {
+                         try
+                         {
+                             if (checkBox6.Checked == true)
+                             {
+                             //llamese al metodo de numero total de caracteres
+                             int x = metP.totalCaracteresParalelo();
+                                 rTotalCaracteres.Text = "Número total de caracteres: " + x.ToString();
+                             }
+                         }
+                         catch (Exception ex)
+                         {
+                             MessageBox.Show(ex.Message);
+                         }
+                     }, () =>
+                     {
+                         try
+                         {
+                             if (checkBox7.Checked == true)
+                             {
+                             //llamese al metodo de numero de caracteres sin espacio
+                             int x = metP.caracteresEspaciosParalelo();
+                                 rEspacios.Text = "Número caracteres sin espacio: " + x.ToString();
+                             }
+                         }
+                         catch (Exception ex)
+                         {
+                             MessageBox.Show(ex.Message);
+                         }
+                     }, () =>
+                     {
+                         try
+                         {
+                             if (checkBox8.Checked == true)
+                             {
+                             //llamese al metodo de recuento de oraciones
+                             int x = metP.totalOracionesParalelo();
+                                 rOraciones.Text = "Número total de oraciones: " + x.ToString();
+                             }
+                         }
+                         catch (Exception ex)
+                         {
+                             MessageBox.Show(ex.Message);
+                         }
+                     });
+                    cargando.Text = "Utilizado Método Concurrente";
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
         }
 
         private void ejecutarTodoButton_Click(object sender, EventArgs e)
         {
+            CheckForIllegalCrossThreadCalls = false;
+
             //llamese a todos los metodos uno por uno
             if (checkBox9.Checked == true)
             {
@@ -356,73 +441,133 @@ namespace Proyecto1Arqui
                     }
 					cargando.Text = "";
 				}
-
-				cargando.Text = "Ejecutando funciones...";
-				//llamese al metodo de palabra de mayor longitud
-				ArrayList list = metS.getPalabraLarga(metS.data);
-
-                string resultado = "Palabra más larga: ";
-                foreach (var item in list)
+                Parallel.Invoke(() =>
                 {
-                    resultado += item + ", ";
-                }
-				rMayorLongitud.Text = resultado;
-
-
-				//llamese al metodo de "N" palabras mas comunes
-				metS.descomponerLineaS(metS.data);
-
-                int valor = ShowDialog("Cantidad de palabras:", "Cantidad de Palabras a buscar");
-                metS.PalabrasRepetidas(valor);
-
-                Func<KeyValuePair<string, int>, int> ordenar = delegate (KeyValuePair<string, int> item2)
-                {
-                    return item2.Value;
-                };
-                IOrderedEnumerable<KeyValuePair<string, int>> ordenado = metS.diccionarioRepetidas.OrderByDescending(ordenar);
-                int cont2 = 0;
-                string result = "Palabras más comunes: ";
-                foreach (var itemx1 in ordenado)
-                {
-                    if (cont2 < valor)
+                    cargando.Text = "Ejecutando funciones...";
+                    try
                     {
-                        //Modificar Para que imprima en la pantalla de impresion
-                        cont2 += 1;
-                        result += itemx1.Key + " " + itemx1.Value + ", ";
+                        //llamese al metodo de palabra de mayor longitud
+                        ArrayList list = metS.getPalabraLarga(metS.data);
+
+                        string resultado = "Palabra más larga: ";
+                        foreach (var item in list)
+                        {
+                            resultado += item + ", ";
+                        }
+                        rMayorLongitud.Text = resultado;
                     }
-                }
-				rPalabrasComunes.Text = result;
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                }, () =>
+                {
+                    try
+                    {
+                        //llamese al metodo de "N" palabras mas comunes
+                        metS.descomponerLineaS(metS.data);
 
+                        int valor = ShowDialog("Cantidad de palabras:", "Cantidad de Palabras a buscar");
+                        metS.PalabrasRepetidas(valor);
 
-				//llamese al metodo de numero de veces que aparece una palabra
-				string valorx = ShowDialog2("Indique la palabra", "Numero de veces de una palabra");
-                int x = metS.cantPalabraParticular(metS.data, valorx);
-				rPalabraVeces.Text = valorx + " Número veces que aparece: " + x.ToString();
+                        Func<KeyValuePair<string, int>, int> ordenar = delegate (KeyValuePair<string, int> item2)
+                        {
+                            return item2.Value;
+                        };
+                        IOrderedEnumerable<KeyValuePair<string, int>> ordenado = metS.diccionarioRepetidas.OrderByDescending(ordenar);
+                        int cont2 = 0;
+                        string result = "Palabras más comunes: ";
+                        foreach (var itemx1 in ordenado)
+                        {
+                            if (cont2 < valor)
+                            {
+                                //Modificar Para que imprima en la pantalla de impresion
+                                cont2 += 1;
+                                result += itemx1.Key + " " + itemx1.Value + ", ";
+                            }
+                        }
+                        rPalabrasComunes.Text = result;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                }, () =>
+                {
+                    try
+                    {
+                        //llamese al metodo de numero de veces que aparece una palabra
+                        string valorx = ShowDialog2("Indique la palabra", "Numero de veces de una palabra");
+                        int x = metS.cantPalabraParticular(metS.data, valorx);
+                        rPalabraVeces.Text = valorx + " Número veces que aparece: " + x.ToString();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                }, () =>
+                {
+                    try
+                    {
+                        //llamese al metodo de Total de palabras
+                        int x2 = metS.getTotalPalabras(metS.data);
+                        rTotalPalabras.Text = "Número total de palabras: " + x2.ToString();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                }, () =>
+                {
+                    try
+                    {
+                        //llamese al metodo de numero de palabras diferentes
+                        int x3 = metS.getPalabrasDiferentes(metS.data);
+                        rPalabrasDiferentes.Text = "Número palabras diferentes: " + x3.ToString();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                }, () =>
+                {
+                    try
+                    {
+                        //llamese al metodo de numero total de caracteres
+                        int x4 = metS.getTotalCaracters(metS.data);
+                        rTotalCaracteres.Text = "Número total de caracteres: " + x4.ToString();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                }, () =>
+                {
+                    try
+                    {
+                        //llamese al metodo de numero de caracteres sin espacio
+                        int x5 = metS.getCaracteresEspacios(metS.data);
+                        rEspacios.Text = "Número caracteres sin espacio: " + x5.ToString();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                }, () =>
+                {
+                    try
+                    {
+                        //llamese al metodo de recuento de oraciones
+                        int x6 = metS.getTotalOraciones(metS.data);
+                        rOraciones.Text = "Número total de oraciones: " + x6.ToString();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
 
-
-				//llamese al metodo de Total de palabras
-				int x2 = metS.getTotalPalabras(metS.data);
-				rTotalPalabras.Text = "Número total de palabras: " + x2.ToString();
-
-
-
-				//llamese al metodo de numero de palabras diferentes
-				int x3 = metS.getPalabrasDiferentes(metS.data);
-				rPalabrasDiferentes.Text = "Número palabras diferentes: " + x3.ToString();
-
-				//llamese al metodo de numero total de caracteres
-				int x4 = metS.getTotalCaracters(metS.data);
-				rTotalCaracteres.Text = "Número total de caracteres: " + x4.ToString();
-
-				//llamese al metodo de numero de caracteres sin espacio
-				int x5 = metS.getCaracteresEspacios(metS.data);
-				rEspacios.Text = "Número caracteres sin espacio: " + x5.ToString();
-
-				//llamese al metodo de recuento de oraciones
-				int x6 = metS.getTotalOraciones(metS.data);
-				rOraciones.Text = "Número total de oraciones: " + x6.ToString();
-
-				cargando.Text = "Utilizado Método Secuencial";
+                    cargando.Text = "Utilizado Método Secuencial";
+                });
 			}
             else if (checkBox10.Checked == true)
             {
@@ -442,69 +587,84 @@ namespace Proyecto1Arqui
                     }
 					cargando.Text = "";
 				}
-                Parallel.Invoke(() =>
+                try
                 {
-					cargando.Text = "Ejecutando funciones...";
-					//llamese al metodo de palabra de mayor longitud
-					string resultado = "Palabra más larga: ";
-                    ArrayList list = metP.palabraLarga();
-                    foreach (var item in list)
+                    Parallel.Invoke(() =>
                     {
-                        resultado += item + ", ";
-                    }
-					rMayorLongitud.Text = resultado;
+                        cargando.Text = "Ejecutando funciones...";
 
-
-					//llamese al metodo de "N" palabras mas comunes
-					metP.descomponerLineaP(metP.data);
-                    int valor = ShowDialog("Cantidad de palabras:", "Cantidad de Palabras a buscar");
-                    metP.PalabrasRepetidas(valor);
-
-                    Func<KeyValuePair<string, int>, int> ordenar = delegate (KeyValuePair<string, int> item2)
-                    {
-                        return item2.Value;
-                    };
-                    IOrderedEnumerable<KeyValuePair<string, int>> ordenado = metP.diccionarioRepetidas.OrderByDescending(ordenar);
-                    int cont2 = 0;
-                    string result = "Palabras más comunes: ";
-                    foreach (var itemx1 in ordenado)
-                    {
-                        if (cont2 < valor)
+                    //llamese al metodo de palabra de mayor longitud
+                    string resultado = "Palabra más larga: ";
+                        ArrayList list = metP.palabraLarga();
+                        foreach (var item in list)
                         {
-                            cont2 += 1;
-                            result += itemx1.Key + " " + itemx1.Value + ", ";
+                            resultado += item + ", ";
                         }
-                    }
-					rPalabrasComunes.Text = result;
+                        rMayorLongitud.Text = resultado;
+                    }, () =>
+                    {
 
-					//llamese al metodo de numero de veces que aparece una palabra
-					string valorx = ShowDialog2("Indique la palabra", "Numero de veces de una palabra");
-                    int x = metP.palabraParticular(valorx);
-					rPalabraVeces.Text = valorx + " Número veces que aparece: " + x.ToString();
+                    //llamese al metodo de "N" palabras mas comunes
+                    metP.descomponerLineaP(metP.data);
+                        int valor = ShowDialog("Cantidad de palabras:", "Cantidad de Palabras a buscar");
+                        metP.PalabrasRepetidas(valor);
 
-					//llamese al metodo de Total de palabras
-					int x1 = metP.totalPalabrasParalelo();
-					rTotalPalabras.Text = "Número total de palabras: " + x1.ToString();
+                        Func<KeyValuePair<string, int>, int> ordenar = delegate (KeyValuePair<string, int> item2)
+                        {
+                            return item2.Value;
+                        };
+                        IOrderedEnumerable<KeyValuePair<string, int>> ordenado = metP.diccionarioRepetidas.OrderByDescending(ordenar);
+                        int cont2 = 0;
+                        string result = "Palabras más comunes: ";
+                        foreach (var itemx1 in ordenado)
+                        {
+                            if (cont2 < valor)
+                            {
+                                cont2 += 1;
+                                result += itemx1.Key + " " + itemx1.Value + ", ";
+                            }
+                        }
+                        rPalabrasComunes.Text = result;
+                    }, () =>
+                    {
+                    //llamese al metodo de numero de veces que aparece una palabra
+                    string valorx = ShowDialog2("Indique la palabra", "Numero de veces de una palabra");
+                        int x = metP.palabraParticular(valorx);
+                        rPalabraVeces.Text = valorx + " Número veces que aparece: " + x.ToString();
+                    }, () =>
+                    {
+                    //llamese al metodo de Total de palabras
+                    int x1 = metP.totalPalabrasParalelo();
+                        rTotalPalabras.Text = "Número total de palabras: " + x1.ToString();
+                    }, () =>
+                    {
+                    //llamese al metodo de numero de palabras diferentes
+                    int x2 = metP.palabrasDiferentesParalelo();
+                        rPalabrasDiferentes.Text = "Número palabras diferentes: " + x2.ToString();
+                    }, () =>
+                    {
+                    //llamese al metodo de numero total de caracteres
+                    int x3 = metP.totalCaracteresParalelo();
+                        rTotalCaracteres.Text = "Número total de caracteres: " + x3.ToString();
+                    }, () =>
+                    {
+                    //llamese al metodo de numero de caracteres sin espacio
+                    int x4 = metP.caracteresEspaciosParalelo();
+                        rEspacios.Text = "Número caracteres sin espacio: " + x4.ToString();
 
-					//llamese al metodo de numero de palabras diferentes
-					int x2 = metP.palabrasDiferentesParalelo();
-					rPalabrasDiferentes.Text = "Número palabras diferentes: " + x2.ToString();
+                    }, () =>
+                    {
+                    //llamese al metodo de recuento de oraciones
+                    int x5 = metP.totalOracionesParalelo();
+                        rOraciones.Text = "Número total de oraciones: " + x5.ToString();
 
-					//llamese al metodo de numero total de caracteres
-					int x3 = metP.totalCaracteresParalelo();
-					rTotalCaracteres.Text = "Número total de caracteres: " + x3.ToString();
-
-					//llamese al metodo de numero de caracteres sin espacio
-					int x4 = metP.caracteresEspaciosParalelo();
-					rEspacios.Text = "Número caracteres sin espacio: " + x4.ToString();
-
-
-					//llamese al metodo de recuento de oraciones
-					int x5 = metP.totalOracionesParalelo();
-					rOraciones.Text = "Número total de oraciones: " + x5.ToString();
-
-					cargando.Text = "Utilizado Método Concurrente";
-				});
+                        cargando.Text = "Utilizado Método Concurrente";
+                    });
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
         }
 
