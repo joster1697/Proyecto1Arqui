@@ -443,10 +443,11 @@ namespace Proyecto1Arqui
                     }
 					cargando.Text = "";
 				}
+				cargando.Text = "Ejecutando funciones...";
 				int valor = ShowDialog("Cantidad de palabras:", "Cantidad de Palabras a buscar");
 				string valor2 = ShowDialog2("Indique la palabra", "Numero de veces de una palabra");
 
-				cargando.Text = "Ejecutando funciones...";
+				
 				temporizador = Stopwatch.StartNew();
 				//llamese al metodo de palabra de mayor longitud
 				ArrayList list = metS.getPalabraLarga(metS.data);
