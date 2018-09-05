@@ -615,6 +615,81 @@ namespace Proyecto1Arqui
                 }
             });
         }
-    }
+
+		public int[] tablaParalelo()
+		{
+			int[] lista1 = null, lista2 = null;
+			Parallel.Invoke(() =>
+			{
+				lista1 = tabla(mitad1);
+			}, () =>
+			{
+				 lista2 = tabla(mitad2);
+			});
+			for(int i = 0; i < lista1.Length; i++)
+			{
+				lista1[i] += lista2[i];
+			}
+			return lista1;
+		}
+
+		public int[] tabla(string texto)
+		{
+			ArrayList maxCaracteres = getPalabraLarga(texto);
+			string numCaracteres = (string)maxCaracteres[0];
+			int[] lista = new int[numCaracteres.Length];
+
+
+			//lista para almacenar una palabra
+			ArrayList palabra = new ArrayList();
+			//cadena de chars para formar una palabra
+			Char[] palabraArray;
+			String resultado;
+			//verifica si la palabra ya se ha guardado
+			Boolean palGuardada = false;
+			//convierte el string a cadena de chars
+			var chars = texto.ToCharArray();
+			//ciclo que recorre la cadena de chars
+			foreach (char letra in chars)
+			{
+				//verifica que se a una letra
+				if (Char.IsLetterOrDigit(letra) == false)
+				{
+					//crea un arreglo de la cantidad de chars de la palabra
+					palabraArray = new char[palabra.Count];
+					//pasa los chars a una lista
+					palabra.CopyTo(palabraArray);
+					//se une la palabra formada
+					resultado = string.Join(null, palabraArray);
+
+					//verifica que la palabra no este vacia
+					if (!resultado.Equals(""))
+					{
+						lista[resultado.Length - 1] += 1;
+					}
+					//se setean los valores
+					palabra = new ArrayList();
+					palGuardada = true;
+
+				}
+				else
+				{
+					//agrega chars a la lista para conformar una palabra
+					palabra.Add(letra);
+					palGuardada = false;
+				}
+			}
+			//verifica que la palabra se haya guardado
+			if (palGuardada == false)
+			{
+				palabraArray = new char[palabra.Count];
+				palabra.CopyTo(palabraArray);
+				resultado = string.Join(null, palabraArray);
+				lista[resultado.Length - 1] += 1;
+				palabra = new ArrayList();
+			}
+			return lista;
+		}
+	}
 
 }

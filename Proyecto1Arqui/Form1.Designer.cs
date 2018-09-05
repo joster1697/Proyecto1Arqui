@@ -51,6 +51,7 @@
 			this.rendimientoButton = new System.Windows.Forms.Button();
 			this.cargando = new System.Windows.Forms.Label();
 			this.panelResultados = new System.Windows.Forms.Panel();
+			this.rPalabraCaracteres = new System.Windows.Forms.Label();
 			this.rOraciones = new System.Windows.Forms.Label();
 			this.rEspacios = new System.Windows.Forms.Label();
 			this.rTotalCaracteres = new System.Windows.Forms.Label();
@@ -59,6 +60,8 @@
 			this.rPalabraVeces = new System.Windows.Forms.Label();
 			this.rPalabrasComunes = new System.Windows.Forms.Label();
 			this.rMayorLongitud = new System.Windows.Forms.Label();
+			this.checkBox11 = new System.Windows.Forms.CheckBox();
+			this.tiempoTotal = new System.Windows.Forms.Label();
 			this.panelResultados.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -102,7 +105,7 @@
 			// 
 			// ejecutarTodoButton
 			// 
-			this.ejecutarTodoButton.Location = new System.Drawing.Point(202, 409);
+			this.ejecutarTodoButton.Location = new System.Drawing.Point(202, 462);
 			this.ejecutarTodoButton.Name = "ejecutarTodoButton";
 			this.ejecutarTodoButton.Size = new System.Drawing.Size(97, 23);
 			this.ejecutarTodoButton.TabIndex = 37;
@@ -192,7 +195,7 @@
 			// 
 			// ejecutarSeleccionButton
 			// 
-			this.ejecutarSeleccionButton.Location = new System.Drawing.Point(60, 409);
+			this.ejecutarSeleccionButton.Location = new System.Drawing.Point(60, 462);
 			this.ejecutarSeleccionButton.Name = "ejecutarSeleccionButton";
 			this.ejecutarSeleccionButton.Size = new System.Drawing.Size(122, 23);
 			this.ejecutarSeleccionButton.TabIndex = 28;
@@ -238,7 +241,7 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(519, 174);
+			this.label2.Location = new System.Drawing.Point(439, 174);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(60, 13);
 			this.label2.TabIndex = 22;
@@ -255,7 +258,7 @@
 			// 
 			// rendimientoButton
 			// 
-			this.rendimientoButton.Location = new System.Drawing.Point(564, 409);
+			this.rendimientoButton.Location = new System.Drawing.Point(564, 462);
 			this.rendimientoButton.Name = "rendimientoButton";
 			this.rendimientoButton.Size = new System.Drawing.Size(75, 23);
 			this.rendimientoButton.TabIndex = 41;
@@ -275,6 +278,7 @@
 			// 
 			this.panelResultados.AutoScroll = true;
 			this.panelResultados.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.panelResultados.Controls.Add(this.rPalabraCaracteres);
 			this.panelResultados.Controls.Add(this.rOraciones);
 			this.panelResultados.Controls.Add(this.rEspacios);
 			this.panelResultados.Controls.Add(this.rTotalCaracteres);
@@ -285,8 +289,17 @@
 			this.panelResultados.Controls.Add(this.rMayorLongitud);
 			this.panelResultados.Location = new System.Drawing.Point(346, 190);
 			this.panelResultados.Name = "panelResultados";
-			this.panelResultados.Size = new System.Drawing.Size(418, 210);
+			this.panelResultados.Size = new System.Drawing.Size(418, 247);
 			this.panelResultados.TabIndex = 44;
+			this.panelResultados.Paint += new System.Windows.Forms.PaintEventHandler(this.panelResultados_Paint);
+			// 
+			// rPalabraCaracteres
+			// 
+			this.rPalabraCaracteres.AutoSize = true;
+			this.rPalabraCaracteres.Location = new System.Drawing.Point(23, 199);
+			this.rPalabraCaracteres.Name = "rPalabraCaracteres";
+			this.rPalabraCaracteres.Size = new System.Drawing.Size(0, 13);
+			this.rPalabraCaracteres.TabIndex = 46;
 			// 
 			// rOraciones
 			// 
@@ -352,11 +365,31 @@
 			this.rMayorLongitud.Size = new System.Drawing.Size(0, 13);
 			this.rMayorLongitud.TabIndex = 0;
 			// 
+			// checkBox11
+			// 
+			this.checkBox11.AutoSize = true;
+			this.checkBox11.Location = new System.Drawing.Point(58, 387);
+			this.checkBox11.Name = "checkBox11";
+			this.checkBox11.Size = new System.Drawing.Size(153, 17);
+			this.checkBox11.TabIndex = 45;
+			this.checkBox11.Text = "9. Palabras por caracteres:";
+			this.checkBox11.UseVisualStyleBackColor = true;
+			// 
+			// tiempoTotal
+			// 
+			this.tiempoTotal.AutoSize = true;
+			this.tiempoTotal.Location = new System.Drawing.Point(561, 174);
+			this.tiempoTotal.Name = "tiempoTotal";
+			this.tiempoTotal.Size = new System.Drawing.Size(0, 13);
+			this.tiempoTotal.TabIndex = 46;
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(800, 450);
+			this.ClientSize = new System.Drawing.Size(800, 497);
+			this.Controls.Add(this.tiempoTotal);
+			this.Controls.Add(this.checkBox11);
 			this.Controls.Add(this.panelResultados);
 			this.Controls.Add(this.cargando);
 			this.Controls.Add(this.rendimientoButton);
@@ -423,6 +456,9 @@
 		private System.Windows.Forms.Label rTotalCaracteres;
 		private System.Windows.Forms.Label rEspacios;
 		private System.Windows.Forms.Label rOraciones;
+		private System.Windows.Forms.Label rPalabraCaracteres;
+		private System.Windows.Forms.CheckBox checkBox11;
+		private System.Windows.Forms.Label tiempoTotal;
 	}
 }
 

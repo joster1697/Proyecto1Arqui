@@ -21,7 +21,7 @@ namespace Proyecto1Arqui
         public string fileName = null;
         private static MetodoSecuencial metS = new MetodoSecuencial();
         private static MetodoParalelo metP = new MetodoParalelo();
-		static Stopwatch temporizador;
+		static Stopwatch temporizador, temporizadorTotal;
 
 		private void Form1_Load(object sender, EventArgs e)
         {
@@ -102,33 +102,28 @@ namespace Proyecto1Arqui
 
         private void ejecutarSeleccionButton_Click(object sender, EventArgs e)
         {
-            CheckForIllegalCrossThreadCalls = false;
+			
+			setearResultados();
+			CheckForIllegalCrossThreadCalls = false;
 
             if (checkBox9.Checked == true)
             {
+				
                 //De forma secuencial
                 if (fileName != null)
                 {
 					cargando.Text = "Preparando archivo...";
-                    //Do something with the file, for example read text from it
-                    string ext = Path.GetExtension(fileName);
-                    if (ext.Equals(".txt"))
-                    {
-                        metS.leerWord(fileName);
-                    }
-                    else if (ext.Equals(".doc") || ext.Equals(".docx"))
-                    {
-                        metS.leerWord(fileName);
-                    }
+                    metS.leerWord(fileName);
+                    
 					cargando.Text = "";
 				}
-
 				int valor = 0;
-				if(checkBox2.Checked == true)valor = ShowDialog("Cantidad de palabras:", "Cantidad de Palabras a buscar");
+				if(checkBox2.Checked == true) {valor = ShowDialog("Cantidad de palabras:", "Cantidad de Palabras a buscar"); }
 				string valor2 = null;
-				if(checkBox3.Checked == true)valor2 = ShowDialog2("Indique la palabra", "Numero de veces de una palabra");
-                
+				if(checkBox3.Checked == true) {valor2 = ShowDialog2("Indique la palabra", "Numero de veces de una palabra"); }
+                temporizadorTotal = Stopwatch.StartNew();
                 cargando.Text = "Ejecutando funciones...";
+				cargando.Refresh();
                 if (checkBox1.Checked == true)
                 {
                     temporizador = Stopwatch.StartNew();
@@ -142,14 +137,15 @@ namespace Proyecto1Arqui
                     }
                     resultado += "-Tiempo = " + temporizador.ElapsedMilliseconds.ToString();
                     rMayorLongitud.Text = resultado;
+					rMayorLongitud.Refresh();
                 }
                     
                    
                 if (checkBox2.Checked == true)
                 {
-                    temporizador = Stopwatch.StartNew();
-                //llamese al metodo de "N" palabras mas comunes
-                metS.descomponerLineaS(metS.data);
+					temporizador = Stopwatch.StartNew();
+					//llamese al metodo de "N" palabras mas comunes
+					metS.descomponerLineaS(metS.data);
 
                     
                     metS.PalabrasRepetidas(valor);
@@ -172,16 +168,17 @@ namespace Proyecto1Arqui
                     }
                     resultado += "-Tiempo = " + temporizador.ElapsedMilliseconds.ToString();
                     rPalabrasComunes.Text = resultado;
+					rPalabrasComunes.Refresh();
                 }
                     
                     
                 if (checkBox3.Checked == true)
                 {
-					
-                    temporizador = Stopwatch.StartNew();
+					temporizador = Stopwatch.StartNew();
 					//llamese al metodo de numero de veces que aparece una palabra
                     int x = metS.cantPalabraParticular(metS.data, valor2);
                     rPalabraVeces.Text = valor2 + " Número veces que aparece: " + x.ToString() + " -Tiempo = " + temporizador.ElapsedMilliseconds;
+					rPalabraVeces.Refresh();
                 }
                     
                 if (checkBox4.Checked == true)
@@ -190,6 +187,7 @@ namespace Proyecto1Arqui
 					//llamese al metodo de Total de palabras
 					int x = metS.getTotalPalabras(metS.data);
                     rTotalPalabras.Text = "Número total de palabras: " + x.ToString() + " -Tiempo = " + temporizador.ElapsedMilliseconds;
+					rTotalPalabras.Refresh();
                 }
                    
                 if (checkBox5.Checked == true)
@@ -198,6 +196,7 @@ namespace Proyecto1Arqui
 					//llamese al metodo de numero de palabras diferentes
 					int x = metS.getPalabrasDiferentes(metS.data);
                     rPalabrasDiferentes.Text = "Número palabras diferentes: " + x.ToString() + " -Tiempo = " + temporizador.ElapsedMilliseconds;
+					rPalabrasDiferentes.Refresh();
                 }
                     
                 if (checkBox6.Checked == true)
@@ -206,6 +205,7 @@ namespace Proyecto1Arqui
 					//llamese al metodo de numero total de caracteres
 					int x = metS.getTotalCaracters(metS.data);
                     rTotalCaracteres.Text = "Número total de caracteres: " + x.ToString() + " -Tiempo = " + temporizador.ElapsedMilliseconds;
+					rTotalCaracteres.Refresh();
                 }
                     
                 if (checkBox7.Checked == true)
@@ -214,6 +214,7 @@ namespace Proyecto1Arqui
 					//llamese al metodo de numero de caracteres sin espacio
 					int x = metS.getCaracteresEspacios(metS.data);
                     rEspacios.Text = "Número total de caracteres sin espacios: " + x.ToString() + " -Tiempo = " + temporizador.ElapsedMilliseconds;
+					rEspacios.Refresh();
                 }
                     
             
@@ -223,11 +224,28 @@ namespace Proyecto1Arqui
 					//llamese al metodo de recuento de oraciones
 					int x = metS.getTotalOraciones(metS.data);
                     rOraciones.Text = "Número de oraciones: " + x.ToString() + " -Tiempo = " + temporizador.ElapsedMilliseconds;
+					rOraciones.Refresh();
                 }
+
+				if(checkBox11.Checked == true)
+				{
+					temporizador = Stopwatch.StartNew();
+					//llamese al metodo de tabla
+					int[] tabla = metS.tabla(metS.data);
+					int totalPalabras = metS.getTotalPalabras(metS.data);
+					string resultado = "";
+					for(int i = 0; i < tabla.Length; i++)
+					{
+						double porcentaje = tabla[i] * 100 / totalPalabras;
+						resultado += i+1 + " caracter = "+tabla[i]+ " palabras " + porcentaje + "% - ";
+					}
+					resultado += "Tiempo = " + temporizador.ElapsedMilliseconds;
+					rPalabraCaracteres.Text = resultado;
+				}
                 cargando.Text = "Utilizado Método Secuencial";
-                    
-               
-            }
+
+				tiempoTotal.Text = "Tiempo total: " + temporizadorTotal.ElapsedMilliseconds;
+			}
             else if (checkBox10.Checked == true)
             {
                 //hacer de manera concurrente
@@ -252,6 +270,7 @@ namespace Proyecto1Arqui
 				string valor2 = null;
 				if (checkBox3.Checked == true) valor2 = ShowDialog2("Indique la palabra", "Numero de veces de una palabra");
 				//Preguntar Cuales Checkbox estan activas
+				temporizadorTotal = Stopwatch.StartNew();
 				cargando.Text = "Ejecutando funciones...";
                 try
                 {
@@ -410,23 +429,45 @@ namespace Proyecto1Arqui
                          {
                              MessageBox.Show(ex.Message);
                          }
-                     });
+                     },()=>
+					 {
+						 if (checkBox11.Checked == true)
+						 {
+							 temporizador = Stopwatch.StartNew();
+							 //llamese al metodo de tabla paralelo
+							 int[] tabla = metP.tablaParalelo();
+							 int totalPalabras = metP.totalPalabrasParalelo();
+							 string resultado = "";
+							 for (int i = 0; i < tabla.Length; i++)
+							 {
+								 double porcentaje = tabla[i] * 100 / totalPalabras;
+								 resultado += i + 1 + " caracter = " + tabla[i] + " palabras " + porcentaje + "% - ";
+							 }
+							 resultado += "Tiempo = " + temporizador.ElapsedMilliseconds;
+							 rPalabraCaracteres.Text = resultado;
+						 }
+					 });
                     cargando.Text = "Utilizado Método Concurrente";
+					tiempoTotal.Text = "Tiempo total: " + temporizadorTotal.ElapsedMilliseconds;
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
                 }
             }
-        }
+			
+		}
 
         private void ejecutarTodoButton_Click(object sender, EventArgs e)
         {
-            CheckForIllegalCrossThreadCalls = false;
+			
+			setearResultados();
+            
 
             //llamese a todos los metodos uno por uno
             if (checkBox9.Checked == true)
             {
+				
                 //De forma secuencial
                 if (fileName != null)
                 {
@@ -443,11 +484,12 @@ namespace Proyecto1Arqui
                     }
 					cargando.Text = "";
 				}
-				cargando.Text = "Ejecutando funciones...";
-				int valor = ShowDialog("Cantidad de palabras:", "Cantidad de Palabras a buscar");
-				string valor2 = ShowDialog2("Indique la palabra", "Numero de veces de una palabra");
 
-				
+				string valor2 = ShowDialog2("Indique la palabra", "Numero de veces de una palabra");
+				int valor = ShowDialog("Cantidad de palabras:", "Cantidad de Palabras a buscar");
+				temporizador = Stopwatch.StartNew();
+				cargando.Text = "Ejecutando funciones...";
+				cargando.Refresh();
 				temporizador = Stopwatch.StartNew();
 				//llamese al metodo de palabra de mayor longitud
 				ArrayList list = metS.getPalabraLarga(metS.data);
@@ -457,9 +499,9 @@ namespace Proyecto1Arqui
 				{
 					resultado += item + ", ";
 				}
-				rMayorLongitud.Text = resultado+" Tiempo = "+temporizador.ElapsedMilliseconds;
-                    
-                
+				rMayorLongitud.Text = resultado + " Tiempo = " + temporizador.ElapsedMilliseconds;
+				rMayorLongitud.Refresh();
+					
 				//llamese al metodo de "N" palabras mas comunes
 				temporizador = Stopwatch.StartNew();
 				metS.descomponerLineaS(metS.data);
@@ -482,47 +524,60 @@ namespace Proyecto1Arqui
 					}
 				}
 				rPalabrasComunes.Text = result + " -Tiempo = " + temporizador.ElapsedMilliseconds;
-                    
-               
-               
+				rPalabrasComunes.Refresh();
+
+					
 				//llamese al metodo de numero de veces que aparece una palabra
 				temporizador = Stopwatch.StartNew();
 				int x = metS.cantPalabraParticular(metS.data, valor2);
 				rPalabraVeces.Text = valor2 + " Número veces que aparece: " + x.ToString() + " -Tiempo = " + temporizador.ElapsedMilliseconds;
-                    
-                
+				rPalabraVeces.Refresh();
+
 				temporizador = Stopwatch.StartNew();
 				//llamese al metodo de Total de palabras
 				int x2 = metS.getTotalPalabras(metS.data);
 				rTotalPalabras.Text = "Número total de palabras: " + x2.ToString() + " -Tiempo = " + temporizador.ElapsedMilliseconds;
-                   
-                
+				rTotalPalabras.Refresh();
+
 				temporizador = Stopwatch.StartNew();
 				//llamese al metodo de numero de palabras diferentes
 				int x3 = metS.getPalabrasDiferentes(metS.data);
 				rPalabrasDiferentes.Text = "Número palabras diferentes: " + x3.ToString() + " -Tiempo = " + temporizador.ElapsedMilliseconds;
-                  
-               
+				rPalabrasDiferentes.Refresh();
+
 				temporizador = Stopwatch.StartNew();
 				//llamese al metodo de numero total de caracteres
 				int x4 = metS.getTotalCaracters(metS.data);
 				rTotalCaracteres.Text = "Número total de caracteres: " + x4.ToString() + " -Tiempo = " + temporizador.ElapsedMilliseconds;
-                  
-               
+				rTotalCaracteres.Refresh();
+
 				temporizador = Stopwatch.StartNew();
 				//llamese al metodo de numero de caracteres sin espacio
 				int x5 = metS.getCaracteresEspacios(metS.data);
 				rEspacios.Text = "Número caracteres sin espacio: " + x5.ToString() + " -Tiempo = " + temporizador.ElapsedMilliseconds;
-                   
-               
+				rEspacios.Refresh();
+
 				temporizador = Stopwatch.StartNew();
 				//llamese al metodo de recuento de oraciones
 				int x6 = metS.getTotalOraciones(metS.data);
 				rOraciones.Text = "Número total de oraciones: " + x6.ToString() + " -Tiempo = " + temporizador.ElapsedMilliseconds;
-                   
+				rOraciones.Refresh();
 
+				temporizador = Stopwatch.StartNew();
+				//llamese al metodo de tabla
+				int[] tabla = metS.tabla(metS.data);
+				int totalPalabras = metS.getTotalPalabras(metS.data);
+				string resultado2 = "";
+				for (int i = 0; i < tabla.Length; i++)
+				{
+					double porcentaje = tabla[i] * 100 / totalPalabras;
+					resultado2 += i + 1 + " caracter = " + tabla[i] + " palabras "+ porcentaje + "% - ";
+				}
+				resultado2 += "Tiempo = " + temporizador.ElapsedMilliseconds;
+				rPalabraCaracteres.Text = resultado2;
 				cargando.Text = "Utilizado Método Secuencial";
-                
+
+				tiempoTotal.Text = "Tiempo total: " + temporizador.ElapsedMilliseconds;
 			}
             else if (checkBox10.Checked == true)
             {
@@ -542,8 +597,10 @@ namespace Proyecto1Arqui
                     }
 					cargando.Text = "";
 				}
+				CheckForIllegalCrossThreadCalls = false;
                 try
                 {
+					
 					int valor = ShowDialog("Cantidad de palabras:", "Cantidad de Palabras a buscar");
 					string valor2 = ShowDialog2("Indique la palabra", "Numero de veces de una palabra");
 					cargando.Text = "Ejecutando funciones...";
@@ -619,20 +676,56 @@ namespace Proyecto1Arqui
 						int x5 = metP.totalOracionesParalelo();
                         rOraciones.Text = "Número total de oraciones: " + x5.ToString() + " -Tiempo = " + temporizador.ElapsedMilliseconds;
 
-                        cargando.Text = "Utilizado Método Concurrente";
-                    });
+                        
+                    },()=>
+					{
+						temporizador = Stopwatch.StartNew();
+						//llamese al metodo de tabla paralelo
+						int[] tabla = metP.tablaParalelo();
+						int totalPalabras = metP.totalPalabrasParalelo();
+						string resultado = "";
+						for (int i = 0; i < tabla.Length; i++)
+						{
+							double porcentaje = tabla[i] * 100 / totalPalabras;
+							resultado += i + 1 + " caracter = " + tabla[i] + " palabras "+porcentaje + "% - ";
+						}
+						resultado += "Tiempo = " + temporizador.ElapsedMilliseconds;
+						rPalabraCaracteres.Text = resultado;
+					});
+					tiempoTotal.Text = "Tiempo total: " + temporizador.ElapsedMilliseconds;
+					cargando.Text = "Utilizado Método Concurrente";
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
                 }
             }
-        }
+
+		}
 
         private void rendimientoButton_Click(object sender, EventArgs e)
         {
             Rendimiento rendi = new Rendimiento();
             rendi.Show();
         }
-    }
+
+		public void setearResultados()
+		{
+			rMayorLongitud.Text = "";
+			rPalabrasComunes.Text = "";
+			rPalabraVeces.Text = "";
+			rTotalPalabras.Text = "";
+			rPalabrasDiferentes.Text = "";
+			rTotalCaracteres.Text = "";
+			rEspacios.Text = "";
+			rOraciones.Text = "";
+			rPalabraCaracteres.Text = "";
+			tiempoTotal.Text = "";
+		}
+
+		private void panelResultados_Paint(object sender, PaintEventArgs e)
+		{
+
+		}
+	}
 }
