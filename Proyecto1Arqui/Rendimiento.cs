@@ -25,6 +25,7 @@ namespace Proyecto1Arqui
 
         private void salirButton_Click(object sender, EventArgs e)
         {
+            iscontinue = false;
             this.Close();
         }
         
@@ -81,6 +82,13 @@ namespace Proyecto1Arqui
             {
                 Console.WriteLine(ex);
             }
+        }
+
+        private void Rendimiento_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            iscontinue = false;
+            this.Dispose();
+            this.Close();
         }
     }
 }

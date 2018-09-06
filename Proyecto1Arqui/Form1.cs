@@ -124,6 +124,7 @@ namespace Proyecto1Arqui
                 temporizadorTotal = Stopwatch.StartNew();
                 cargando.Text = "Ejecutando funciones...";
 				cargando.Refresh();
+
                 if (checkBox1.Checked == true)
                 {
                     temporizador = Stopwatch.StartNew();
