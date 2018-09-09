@@ -578,7 +578,7 @@ namespace Proyecto1Arqui
 				rPalabraCaracteres.Text = resultado2;
 				cargando.Text = "Utilizado Método Secuencial";
 
-				tiempoTotal.Text = "Tiempo total: " + temporizador.ElapsedMilliseconds;
+				tiempoTotal.Text = "Tiempo total: " + temporizadorTotal.ElapsedMilliseconds;
 			}
             else if (checkBox10.Checked == true)
             {
@@ -604,6 +604,7 @@ namespace Proyecto1Arqui
 					
 					int valor = ShowDialog("Cantidad de palabras:", "Cantidad de Palabras a buscar");
 					string valor2 = ShowDialog2("Indique la palabra", "Numero de veces de una palabra");
+					temporizadorTotal = Stopwatch.StartNew();
 					cargando.Text = "Ejecutando funciones...";
                     Parallel.Invoke(() =>
                     {
