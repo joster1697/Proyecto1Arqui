@@ -488,7 +488,7 @@ namespace Proyecto1Arqui
 
 				string valor2 = ShowDialog2("Indique la palabra", "Numero de veces de una palabra");
 				int valor = ShowDialog("Cantidad de palabras:", "Cantidad de Palabras a buscar");
-				temporizador = Stopwatch.StartNew();
+				temporizadorTotal = Stopwatch.StartNew();
 				cargando.Text = "Ejecutando funciones...";
 				cargando.Refresh();
 				temporizador = Stopwatch.StartNew();
@@ -693,7 +693,7 @@ namespace Proyecto1Arqui
 						resultado += "Tiempo = " + temporizador.ElapsedMilliseconds;
 						rPalabraCaracteres.Text = resultado;
 					});
-					tiempoTotal.Text = "Tiempo total: " + temporizador.ElapsedMilliseconds;
+					tiempoTotal.Text = "Tiempo total: " + temporizadorTotal.ElapsedMilliseconds;
 					cargando.Text = "Utilizado Método Concurrente";
                 }
                 catch (Exception ex)
